@@ -8,58 +8,58 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Futuristic Dark Theme */
-    --background: 222 84% 4.9%;
-    --foreground: 180 100% 90%;
+/* Premium Classy Dark Theme */
+    --background: 240 10% 3.9%;
+    --foreground: 40 100% 95%;
 
-    --card: 222 84% 8%;
-    --card-foreground: 180 100% 95%;
+    --card: 240 10% 6%;
+    --card-foreground: 40 100% 98%;
 
-    --popover: 222 84% 6%;
-    --popover-foreground: 180 100% 95%;
+    --popover: 240 10% 5%;
+    --popover-foreground: 40 100% 98%;
 
-    /* Neon Cyan Primary */
-    --primary: 180 100% 50%;
-    --primary-foreground: 222 84% 4.9%;
+    /* Elegant Gold Primary */
+    --primary: 45 100% 70%;
+    --primary-foreground: 240 10% 3.9%;
 
-    /* Purple Secondary */
-    --secondary: 280 100% 70%;
-    --secondary-foreground: 222 84% 4.9%;
+    /* Deep Navy Secondary */
+    --secondary: 220 40% 25%;
+    --secondary-foreground: 40 100% 95%;
 
-    /* Muted Glass Effect */
-    --muted: 222 50% 15%;
-    --muted-foreground: 180 30% 70%;
+    /* Sophisticated Muted */
+    --muted: 240 10% 12%;
+    --muted-foreground: 40 20% 75%;
 
-    /* Electric Accent */
-    --accent: 195 100% 60%;
-    --accent-foreground: 222 84% 4.9%;
+    /* Premium Accent */
+    --accent: 35 100% 65%;
+    --accent-foreground: 240 10% 3.9%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 222 50% 20%;
-    --input: 222 50% 12%;
-    --ring: 180 100% 50%;
+    --border: 240 10% 18%;
+    --input: 240 10% 8%;
+    --ring: 45 100% 70%;
 
     --radius: 1rem;
 
-    /* Custom Quantum Design Tokens */
-    --quantum-bg: 222 84% 4.9%;
-    --quantum-surface: 222 50% 8%;
-    --quantum-glass: 222 50% 12%;
-    --quantum-neon: 180 100% 50%;
-    --quantum-purple: 280 100% 70%;
-    --quantum-glow: 195 100% 75%;
+    /* Custom Premium Design Tokens */
+    --quantum-bg: 240 10% 3.9%;
+    --quantum-surface: 240 10% 8%;
+    --quantum-glass: 240 10% 15%;
+    --quantum-neon: 45 100% 70%;
+    --quantum-purple: 220 40% 35%;
+    --quantum-glow: 35 100% 75%;
     
-    /* Gradients */
+    /* Premium Gradients */
     --gradient-quantum: linear-gradient(135deg, hsl(var(--quantum-neon)), hsl(var(--quantum-purple)));
     --gradient-glass: linear-gradient(135deg, hsl(var(--quantum-glass) / 0.3), hsl(var(--quantum-surface) / 0.5));
-    --gradient-glow: radial-gradient(circle, hsl(var(--quantum-glow) / 0.3), transparent);
+    --gradient-glow: radial-gradient(circle, hsl(var(--quantum-glow) / 0.2), transparent);
     
-    /* Shadows */
-    --shadow-neon: 0 0 20px hsl(var(--quantum-neon) / 0.5);
-    --shadow-purple: 0 0 30px hsl(var(--quantum-purple) / 0.4);
-    --shadow-glass: 0 8px 32px hsl(222 84% 4.9% / 0.3);
+    /* Elegant Shadows */
+    --shadow-neon: 0 0 30px hsl(var(--quantum-neon) / 0.3);
+    --shadow-purple: 0 0 25px hsl(var(--quantum-purple) / 0.4);
+    --shadow-glass: 0 20px 50px hsl(240 10% 0% / 0.5);
 
     /* Animation */
     --transition-quantum: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -149,13 +149,13 @@ All colors MUST be HSL.
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-shadow: 0 0 30px hsl(var(--quantum-neon) / 0.5);
+    text-shadow: 0 0 20px hsl(var(--quantum-neon) / 0.3);
   }
 
   .quantum-key {
     @apply text-4xl font-bold tracking-widest;
     color: hsl(var(--quantum-glow));
-    text-shadow: 0 0 20px hsl(var(--quantum-glow) / 0.8);
+    text-shadow: 0 0 15px hsl(var(--quantum-glow) / 0.5);
     font-family: 'JetBrains Mono', 'Fira Code', monospace;
   }
 

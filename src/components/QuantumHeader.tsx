@@ -14,7 +14,7 @@ export const QuantumHeader = () => {
         animate={{ scale: 1 }}
         transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
       >
-        QUANT·FUTURE
+        HEART OF BLACK - Q
       </motion.h1>
       <motion.p 
         className="text-2xl text-quantum-glow/80 font-light tracking-[0.3em] mt-4"
@@ -22,7 +22,7 @@ export const QuantumHeader = () => {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.6, duration: 0.6 }}
       >
-        QRNG PROTOTYPE
+        PREMIUM QUANTUM GENERATOR
       </motion.p>
       <motion.div 
         className="w-32 h-1 bg-gradient-quantum mx-auto mt-6 rounded-full"

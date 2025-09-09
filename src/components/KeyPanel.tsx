@@ -30,7 +30,7 @@ export const KeyPanel = ({ qrngData }: KeyPanelProps) => {
       const chunk = binary.slice(i, i + 6);
       const index = parseInt(chunk, 2) % chars.length;
       key += chars[index];
-      if (key.length >= 12) break; // Limit to 12 characters
+      if (key.length >= 7) break; // Limit to 7 characters for 7-bit
     }
 
     setGeneratedKey(key.toUpperCase());
@@ -52,9 +52,9 @@ export const KeyPanel = ({ qrngData }: KeyPanelProps) => {
       transition={{ duration: 0.8, delay: 0.5 }}
     >
       <div className="flex items-center space-x-3 mb-6">
-        <Key className="w-6 h-6 text-quantum-purple animate-glow-pulse" />
-        <h2 className="text-2xl font-bold text-quantum-purple">
-          Quantum Key Generator
+        <Key className="w-6 h-6 text-quantum-neon animate-glow-pulse" />
+        <h2 className="text-2xl font-bold text-quantum-neon">
+          Premium Key Generator
         </h2>
       </div>
 
@@ -80,9 +80,12 @@ export const KeyPanel = ({ qrngData }: KeyPanelProps) => {
           transition={{ duration: 0.5 }}
           className="space-y-6"
         >
-          <h3 className="text-lg font-semibold text-quantum-glow">
-            Generated Quantum Key:
+          <h3 className="text-lg font-semibold text-quantum-glow mb-2">
+            Generated 7-Bit Key:
           </h3>
+          <div className="text-sm text-muted-foreground mb-4 p-3 bg-quantum-glass/20 rounded-lg border border-quantum-neon/20">
+            <strong>Conversion Process:</strong> Quantum hex → Binary → 6-bit chunks → Base-62 encoding → 7-character alphanumeric key
+          </div>
           
           <div className="relative">
             <motion.div 
