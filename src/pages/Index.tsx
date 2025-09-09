@@ -7,6 +7,7 @@ import { ChunkDisplay } from "@/components/ChunkDisplay";
 import { MappingDisplay } from "@/components/MappingDisplay";
 import { FinalKeyDisplay } from "@/components/FinalKeyDisplay";
 import { QuantumHeader } from "@/components/QuantumHeader";
+import { EntropyVisualization } from "@/components/EntropyVisualization";
 
 const Index = () => {
   const [qrngData, setQrngData] = useState<string>("");
@@ -196,6 +197,9 @@ const Index = () => {
               <FinalKeyDisplay finalKey={finalKey} />
             </motion.div>
           )}
+
+          {/* Entropy Visualization */}
+          <EntropyVisualization qrngData={qrngData} binary={binary} />
         </div>
       </div>
     </div>
