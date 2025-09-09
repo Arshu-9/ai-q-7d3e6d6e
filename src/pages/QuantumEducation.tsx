@@ -8,6 +8,7 @@ import { QuantumHeader } from "@/components/QuantumHeader";
 import { EnhancedBinaryDisplay } from "@/components/EnhancedBinaryDisplay";
 import { InteractiveStepFlow } from "@/components/InteractiveStepFlow";
 import { ComparisonPanel } from "@/components/ComparisonPanel";
+import { QRNGComparison } from "@/components/QRNGComparison";
 
 interface QubitProps {
   isGenerating: boolean;
@@ -584,11 +585,20 @@ const QuantumEducation = () => {
           </motion.section>
         )}
 
-        {/* Education Cards Section */}
+        {/* QRNG vs PRNG Interactive Comparison */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
+        >
+          <QRNGComparison />
+        </motion.section>
+
+        {/* Education Cards Section */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 1.0 }}
         >
           <div className="text-center mb-12">
             <div className="flex items-center justify-center gap-3 mb-4">
@@ -608,7 +618,7 @@ const QuantumEducation = () => {
                 key={card.title}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 1.0 + index * 0.1 }}
+                transition={{ duration: 0.6, delay: 1.2 + index * 0.1 }}
               >
                 <EducationCard {...card} />
               </motion.div>
