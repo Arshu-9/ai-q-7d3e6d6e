@@ -11,6 +11,7 @@ import { InteractiveMappingDisplay } from "@/components/InteractiveMappingDispla
 import { PremiumFinalKeyDisplay } from "@/components/PremiumFinalKeyDisplay";
 import { ComparisonPanel } from "@/components/ComparisonPanel";
 import { EntropyVisualization } from "@/components/EntropyVisualization";
+import { InteractiveStep } from "@/components/InteractiveStep";
 
 const Index = () => {
   const navigate = useNavigate();

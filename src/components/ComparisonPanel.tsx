@@ -11,9 +11,12 @@ interface ComparisonData {
 
 interface ComparisonPanelProps {
   newQuantumKey?: string;
+  quantumKey?: string;
+  prngKey?: string;
 }
 
-export const ComparisonPanel = ({ newQuantumKey }: ComparisonPanelProps) => {
+export const ComparisonPanel = ({ newQuantumKey, quantumKey, prngKey }: ComparisonPanelProps) => {
+  const finalQuantumKey = newQuantumKey || quantumKey;
   const [data, setData] = useState<ComparisonData>({ quantum: [], prng: [] });
   const [winner, setWinner] = useState<'quantum' | 'prng' | null>(null);
 
@@ -26,18 +29,18 @@ export const ComparisonPanel = ({ newQuantumKey }: ComparisonPanelProps) => {
   };
 
   useEffect(() => {
-    if (newQuantumKey) {
-      const prngKey = generatePRNGKey();
+    if (finalQuantumKey) {
+      const generatedPrngKey = prngKey || generatePRNGKey();
       setData(prev => ({
-        quantum: [newQuantumKey, ...prev.quantum.slice(0, 4)],
-        prng: [prngKey, ...prev.prng.slice(0, 4)]
+        quantum: [finalQuantumKey, ...prev.quantum.slice(0, 4)],
+        prng: [generatedPrngKey, ...prev.prng.slice(0, 4)]
       }));
 
       // Animate the "battle"
       setWinner(null);
       setTimeout(() => setWinner('quantum'), 1000);
     }
-  }, [newQuantumKey]);
+  }, [finalQuantumKey, prngKey]);
 
   const calculateEntropy = (keys: string[]) => {
     if (keys.length === 0) return 0;

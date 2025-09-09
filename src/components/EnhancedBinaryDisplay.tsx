@@ -2,31 +2,35 @@ import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 
 interface EnhancedBinaryDisplayProps {
-  qubits: number[];
-  isGenerating: boolean;
+  qubits?: number[];
+  isGenerating?: boolean;
   onComplete?: (binary: string) => void;
+  binary?: string;
 }
 
-export const EnhancedBinaryDisplay = ({ qubits, isGenerating, onComplete }: EnhancedBinaryDisplayProps) => {
+export const EnhancedBinaryDisplay = ({ qubits = [], isGenerating = false, onComplete, binary }: EnhancedBinaryDisplayProps) => {
   const [displayedBits, setDisplayedBits] = useState<number[]>([]);
+  
+  // Convert binary string to qubits array if provided
+  const processedQubits = binary ? binary.split('').map(Number) : qubits;
 
   useEffect(() => {
-    if (qubits.length === 0) {
+    if (processedQubits.length === 0) {
       setDisplayedBits([]);
       return;
     }
 
     // Animate bits appearing one by one
     const timer = setTimeout(() => {
-      if (displayedBits.length < qubits.length) {
-        setDisplayedBits(prev => [...prev, qubits[prev.length]]);
-      } else if (onComplete && displayedBits.length === qubits.length) {
-        onComplete(qubits.join(''));
+      if (displayedBits.length < processedQubits.length) {
+        setDisplayedBits(prev => [...prev, processedQubits[prev.length]]);
+      } else if (onComplete && displayedBits.length === processedQubits.length) {
+        onComplete(processedQubits.join(''));
       }
-    }, 500);
+    }, 50);
 
     return () => clearTimeout(timer);
-  }, [qubits, displayedBits.length, onComplete]);
+  }, [processedQubits, displayedBits.length, onComplete]);
 
   return (
     <div className="space-y-6">
@@ -79,7 +83,7 @@ export const EnhancedBinaryDisplay = ({ qubits, isGenerating, onComplete }: Enha
           ))}
         </div>
 
-        {displayedBits.length === qubits.length && qubits.length > 0 && (
+        {displayedBits.length === processedQubits.length && processedQubits.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -87,7 +91,7 @@ export const EnhancedBinaryDisplay = ({ qubits, isGenerating, onComplete }: Enha
             className="mt-6 p-4 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg border border-primary/20"
           >
             <p className="text-sm text-muted-foreground mb-2">Binary String:</p>
-            <p className="font-mono text-xl font-bold">{qubits.join('')}</p>
+            <p className="font-mono text-xl font-bold">{processedQubits.join('')}</p>
           </motion.div>
         )}
       </div>
