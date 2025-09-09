@@ -788,46 +788,6 @@ const QuantumEducation = () => {
           </motion.section>
         )}
 
-        {/* Generated Keys History */}
-        {generatedKeys.length > 0 && (
-          <motion.section
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-          >
-            <Card className="premium-panel">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Sparkles className="w-5 h-5 text-primary" />
-                  Generated Quantum Keys
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {generatedKeys.map((key, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      className="flex items-center justify-between p-3 bg-muted/30 rounded-lg border"
-                    >
-                      <code className="font-mono text-sm">{key}</code>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => copyToClipboard(key)}
-                        className="h-8 w-8"
-                      >
-                        <Copy className="h-4 w-4" />
-                      </Button>
-                    </motion.div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </motion.section>
-        )}
 
         {/* Quantum vs Classical Comparison */}
         {entropyData.quantum.length > 0 && (
