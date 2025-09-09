@@ -8,61 +8,61 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-/* Premium Classy Dark Theme */
-    --background: 240 10% 3.9%;
-    --foreground: 40 100% 95%;
+/* Premium Silver + Royal Blue Theme */
+    --background: 0 0% 98%;
+    --foreground: 215 25% 27%;
 
-    --card: 240 10% 6%;
-    --card-foreground: 40 100% 98%;
+    --card: 0 0% 95%;
+    --card-foreground: 215 25% 27%;
 
-    --popover: 240 10% 5%;
-    --popover-foreground: 40 100% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 25% 27%;
 
-    /* Elegant Gold Primary */
-    --primary: 45 100% 70%;
-    --primary-foreground: 240 10% 3.9%;
+    /* Royal Blue Primary */
+    --primary: 225 73% 57%;
+    --primary-foreground: 0 0% 100%;
 
-    /* Deep Navy Secondary */
-    --secondary: 220 40% 25%;
-    --secondary-foreground: 40 100% 95%;
+    /* Silver Secondary */
+    --secondary: 0 0% 75%;
+    --secondary-foreground: 215 25% 27%;
 
-    /* Sophisticated Muted */
-    --muted: 240 10% 12%;
-    --muted-foreground: 40 20% 75%;
+    /* Professional Muted */
+    --muted: 0 0% 92%;
+    --muted-foreground: 215 15% 46%;
 
     /* Premium Accent */
-    --accent: 35 100% 65%;
-    --accent-foreground: 240 10% 3.9%;
+    --accent: 0 0% 88%;
+    --accent-foreground: 215 25% 27%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 240 10% 18%;
-    --input: 240 10% 8%;
-    --ring: 45 100% 70%;
+    --border: 0 0% 85%;
+    --input: 0 0% 100%;
+    --ring: 225 73% 57%;
 
-    --radius: 1rem;
+    --radius: 0.75rem;
 
-    /* Custom Premium Design Tokens */
-    --quantum-bg: 240 10% 3.9%;
-    --quantum-surface: 240 10% 8%;
-    --quantum-glass: 240 10% 15%;
-    --quantum-neon: 45 100% 70%;
-    --quantum-purple: 220 40% 35%;
-    --quantum-glow: 35 100% 75%;
+    /* Premium Fintech Design Tokens */
+    --royal-blue: 225 73% 57%;
+    --royal-blue-dark: 225 73% 45%;
+    --silver: 0 0% 75%;
+    --silver-light: 0 0% 90%;
+    --silver-dark: 0 0% 65%;
+    --off-white: 0 0% 98%;
     
-    /* Premium Gradients */
-    --gradient-quantum: linear-gradient(135deg, hsl(var(--quantum-neon)), hsl(var(--quantum-purple)));
-    --gradient-glass: linear-gradient(135deg, hsl(var(--quantum-glass) / 0.3), hsl(var(--quantum-surface) / 0.5));
-    --gradient-glow: radial-gradient(circle, hsl(var(--quantum-glow) / 0.2), transparent);
+    /* Professional Gradients */
+    --gradient-background: linear-gradient(135deg, hsl(var(--silver-light)), hsl(var(--off-white)));
+    --gradient-card: linear-gradient(135deg, hsl(var(--silver) / 0.3), hsl(var(--silver-light) / 0.5));
+    --gradient-button: linear-gradient(135deg, hsl(var(--royal-blue)), hsl(var(--royal-blue-dark)));
     
     /* Elegant Shadows */
-    --shadow-neon: 0 0 30px hsl(var(--quantum-neon) / 0.3);
-    --shadow-purple: 0 0 25px hsl(var(--quantum-purple) / 0.4);
-    --shadow-glass: 0 20px 50px hsl(240 10% 0% / 0.5);
+    --shadow-soft: 0 4px 12px hsl(0 0% 0% / 0.1);
+    --shadow-medium: 0 8px 25px hsl(0 0% 0% / 0.15);
+    --shadow-card: 0 2px 8px hsl(0 0% 0% / 0.08);
 
-    /* Animation */
-    --transition-quantum: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    /* Smooth Transitions */
+    --transition-smooth: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
     --sidebar-background: 0 0% 98%;
 
@@ -112,87 +112,84 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
-    background: hsl(var(--quantum-bg));
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--gradient-background);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
     overflow-x: hidden;
   }
 
-  /* Quantum Glassmorphism Classes */
-  .glass-panel {
-    @apply backdrop-blur-xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-3xl;
-    box-shadow: var(--shadow-glass);
+  /* Premium Fintech UI Classes */
+  .premium-panel {
+    @apply bg-card border border-border rounded-xl;
+    box-shadow: var(--shadow-card);
+    background: var(--gradient-card);
   }
 
-  .neon-glow {
-    box-shadow: var(--shadow-neon);
+  .fintech-button {
+    @apply bg-primary text-primary-foreground font-medium py-3 px-6 rounded-lg;
+    @apply transform transition-all duration-200 hover:bg-royal-blue-dark active:scale-98;
+    background: var(--gradient-button);
+    box-shadow: var(--shadow-soft);
   }
 
-  .purple-glow {
-    box-shadow: var(--shadow-purple);
+  .fintech-button:hover {
+    background: linear-gradient(135deg, hsl(var(--royal-blue-dark)), hsl(225 73% 40%));
+    box-shadow: var(--shadow-medium);
   }
 
-  .quantum-button {
-    @apply bg-gradient-to-r from-primary to-secondary text-primary-foreground font-semibold py-4 px-8 rounded-2xl;
-    @apply transform transition-all duration-300 hover:scale-105 active:scale-95;
-    @apply shadow-lg hover:shadow-neon;
-    background: var(--gradient-quantum);
+  .code-display {
+    @apply font-mono bg-muted border border-border rounded-lg p-4;
+    @apply text-foreground;
+    font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
   }
 
-  .quantum-code {
-    @apply font-mono bg-muted/30 backdrop-blur-sm border border-primary/30 rounded-xl p-4;
-    @apply text-primary shadow-inner;
+  .elegant-title {
+    @apply text-5xl font-bold tracking-tight text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
   }
 
-  .quantum-title {
-    @apply text-6xl font-black tracking-wider;
-    background: var(--gradient-quantum);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: 0 0 20px hsl(var(--quantum-neon) / 0.3);
+  .key-display {
+    @apply text-3xl font-semibold tracking-wider text-primary;
+    font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
   }
 
-  .quantum-key {
-    @apply text-4xl font-bold tracking-widest;
-    color: hsl(var(--quantum-glow));
-    text-shadow: 0 0 15px hsl(var(--quantum-glow) / 0.5);
-    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  .section-divider {
+    @apply w-full h-px bg-border my-8;
   }
 
-  /* Animations */
-  @keyframes quantum-pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.8; transform: scale(1.02); }
+  /* Professional Animations */
+  @keyframes gentle-fade {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
   }
 
-  @keyframes neon-flicker {
-    0%, 100% { text-shadow: 0 0 20px hsl(var(--quantum-glow) / 0.8); }
-    50% { text-shadow: 0 0 30px hsl(var(--quantum-glow) / 1), 0 0 40px hsl(var(--quantum-neon) / 0.5); }
+  @keyframes soft-scale {
+    0% { transform: scale(0.98); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
   }
 
-  .animate-quantum-pulse {
-    animation: quantum-pulse 3s ease-in-out infinite;
+  .animate-gentle-fade {
+    animation: gentle-fade 0.4s ease-out;
   }
 
-  .animate-neon-flicker {
-    animation: neon-flicker 2s ease-in-out infinite;
+  .animate-soft-scale {
+    animation: soft-scale 0.3s ease-out;
   }
 
   /* Scrollbar */
   ::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
   }
 
   ::-webkit-scrollbar-track {
-    background: hsl(var(--quantum-surface));
+    background: hsl(var(--muted));
   }
 
   ::-webkit-scrollbar-thumb {
-    background: var(--gradient-quantum);
-    border-radius: 4px;
+    background: hsl(var(--border));
+    border-radius: 3px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--quantum-glow));
+    background: hsl(var(--primary));
   }
 }

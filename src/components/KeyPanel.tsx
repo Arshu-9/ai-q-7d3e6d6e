@@ -46,61 +46,56 @@ export const KeyPanel = ({ qrngData }: KeyPanelProps) => {
 
   return (
     <motion.div 
-      className="glass-panel p-8 space-y-6"
-      initial={{ opacity: 0, x: 100 }}
+      className="premium-panel p-8 space-y-6"
+      initial={{ opacity: 0, x: 50 }}
       animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.8, delay: 0.5 }}
+      transition={{ duration: 0.5, delay: 0.3 }}
     >
       <div className="flex items-center space-x-3 mb-6">
-        <Key className="w-6 h-6 text-quantum-neon animate-glow-pulse" />
-        <h2 className="text-2xl font-bold text-quantum-neon">
-          Premium Key Generator
+        <Key className="w-6 h-6 text-primary" />
+        <h2 className="text-2xl font-semibold text-foreground">
+          Key Generator
         </h2>
       </div>
 
       <motion.button
         onClick={convertToAlphanumeric}
         disabled={!qrngData}
-        className="quantum-button w-full disabled:opacity-30 disabled:cursor-not-allowed"
-        whileHover={{ scale: qrngData ? 1.02 : 1 }}
-        whileTap={{ scale: qrngData ? 0.98 : 1 }}
-        style={{
-          background: qrngData 
-            ? "linear-gradient(135deg, hsl(var(--quantum-purple)), hsl(var(--quantum-neon)))"
-            : "linear-gradient(135deg, hsl(var(--muted)), hsl(var(--muted)))"
-        }}
+        className="fintech-button w-full disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-primary"
+        whileHover={{ scale: qrngData ? 1.01 : 1 }}
+        whileTap={{ scale: qrngData ? 0.99 : 1 }}
       >
-        Convert to Key
+        Convert to 7-Bit Key
       </motion.button>
 
       {generatedKey && (
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.4 }}
           className="space-y-6"
         >
-          <h3 className="text-lg font-semibold text-quantum-glow mb-2">
+          <h3 className="text-lg font-medium text-foreground mb-2">
             Generated 7-Bit Key:
           </h3>
-          <div className="text-sm text-muted-foreground mb-4 p-3 bg-quantum-glass/20 rounded-lg border border-quantum-neon/20">
-            <strong>Conversion Process:</strong> Quantum hex → Binary → 6-bit chunks → Base-62 encoding → 7-character alphanumeric key
+          <div className="text-sm text-muted-foreground mb-4 p-4 bg-muted rounded-lg border border-border">
+            <strong className="text-foreground">Conversion Process:</strong> Quantum hex → Binary → 6-bit chunks → Base-62 encoding → 7-character alphanumeric key
           </div>
           
           <div className="relative">
             <motion.div 
-              className="quantum-key text-center py-8 bg-gradient-to-br from-quantum-glass/20 to-quantum-surface/30 rounded-2xl border border-quantum-glow/30 animate-neon-flicker"
-              initial={{ scale: 0.95, opacity: 0 }}
+              className="key-display text-center py-8 bg-card rounded-lg border border-border animate-soft-scale"
+              initial={{ scale: 0.98, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
             >
               {generatedKey.split('').map((char, index) => (
                 <motion.span
                   key={index}
-                  initial={{ opacity: 0, y: 10 }}
+                  initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1, duration: 0.3 }}
-                  className="inline-block"
+                  transition={{ delay: index * 0.05, duration: 0.2 }}
+                  className="inline-block mx-1"
                 >
                   {char}
                 </motion.span>
@@ -109,24 +104,24 @@ export const KeyPanel = ({ qrngData }: KeyPanelProps) => {
             
             <motion.button
               onClick={copyToClipboard}
-              className="absolute top-4 right-4 p-2 rounded-lg bg-quantum-surface/50 hover:bg-quantum-surface/70 transition-all duration-200 group"
-              whileHover={{ scale: 1.1 }}
+              className="absolute top-4 right-4 p-2 rounded-lg bg-background/80 hover:bg-accent transition-all duration-200 group border border-border"
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               {copied ? (
-                <CheckCircle className="w-5 h-5 text-green-400" />
+                <CheckCircle className="w-5 h-5 text-green-600" />
               ) : (
-                <Copy className="w-5 h-5 text-quantum-glow group-hover:text-quantum-neon transition-colors" />
+                <Copy className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
               )}
             </motion.button>
           </div>
 
           {copied && (
             <motion.p
-              initial={{ opacity: 0, y: -10 }}
+              initial={{ opacity: 0, y: -5 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className="text-center text-green-400 font-medium"
+              exit={{ opacity: 0, y: -5 }}
+              className="text-center text-green-600 font-medium"
             >
               Key copied to clipboard!
             </motion.p>

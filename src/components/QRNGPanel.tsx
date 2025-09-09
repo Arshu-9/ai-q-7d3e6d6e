@@ -43,14 +43,14 @@ export const QRNGPanel = ({ onQRNGGenerated }: QRNGPanelProps) => {
 
   return (
     <motion.div 
-      className="glass-panel p-8 space-y-6"
-      initial={{ opacity: 0, x: -100 }}
+      className="premium-panel p-8 space-y-6"
+      initial={{ opacity: 0, x: -50 }}
       animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.8, delay: 0.3 }}
+      transition={{ duration: 0.5, delay: 0.1 }}
     >
       <div className="flex items-center space-x-3 mb-6">
-        <Zap className="w-6 h-6 text-quantum-neon animate-glow-pulse" />
-        <h2 className="text-2xl font-bold text-quantum-neon">
+        <Zap className="w-6 h-6 text-primary" />
+        <h2 className="text-2xl font-semibold text-foreground">
           Quantum Random Generator
         </h2>
       </div>
@@ -58,14 +58,14 @@ export const QRNGPanel = ({ onQRNGGenerated }: QRNGPanelProps) => {
       <motion.button
         onClick={generateQRNG}
         disabled={isLoading}
-        className="quantum-button w-full disabled:opacity-50 disabled:cursor-not-allowed"
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
+        className="fintech-button w-full disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-primary"
+        whileHover={{ scale: 1.01 }}
+        whileTap={{ scale: 0.99 }}
       >
         {isLoading ? (
           <div className="flex items-center justify-center space-x-2">
             <Loader2 className="w-5 h-5 animate-spin" />
-            <span>Quantum Entangling...</span>
+            <span>Generating...</span>
           </div>
         ) : (
           "Generate QRNG"
@@ -74,15 +74,15 @@ export const QRNGPanel = ({ onQRNGGenerated }: QRNGPanelProps) => {
 
       {qrngData && (
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.4 }}
           className="space-y-4"
         >
-          <h3 className="text-lg font-semibold text-quantum-glow">
+          <h3 className="text-lg font-medium text-foreground">
             Raw Quantum Data:
           </h3>
-          <div className="quantum-code break-all">
+          <div className="code-display break-all">
             {qrngData}
           </div>
         </motion.div>
