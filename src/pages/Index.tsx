@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { GraduationCap } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { Loader2, Zap, Sparkles } from "lucide-react";
 import { InteractiveStep } from "@/components/InteractiveStepFlow";
 import { EnhancedBinaryDisplay } from "@/components/EnhancedBinaryDisplay";
@@ -10,6 +13,7 @@ import { ComparisonPanel } from "@/components/ComparisonPanel";
 import { EntropyVisualization } from "@/components/EntropyVisualization";
 
 const Index = () => {
+  const navigate = useNavigate();
   const [qrngData, setQrngData] = useState<string>("");
   const [binary, setBinary] = useState<string>("");
   const [finalKey, setFinalKey] = useState<string>("");
@@ -135,11 +139,20 @@ const Index = () => {
           <h1 className="elegant-title mb-4">
             Heart of Black <span className="text-royal-blue">-Q</span>
           </h1>
-          <div className="flex items-center justify-center space-x-2 text-muted-foreground">
+          <div className="flex items-center justify-center space-x-2 text-muted-foreground mb-6">
             <Sparkles className="w-5 h-5 text-royal-blue" />
             <p className="text-lg">Interactive Quantum Key Conversion Demo</p>
             <Sparkles className="w-5 h-5 text-royal-blue" />
           </div>
+          
+          <Button
+            onClick={() => navigate("/quantum-education")}
+            variant="outline"
+            className="gap-2"
+          >
+            <GraduationCap className="w-4 h-4" />
+            Learn About Quantum Physics
+          </Button>
         </motion.div>
 
         {/* Generate Button */}
