@@ -268,6 +268,20 @@ const Index = () => {
           )}
         </div>
       </div>
+      
+      {/* Copyright Footer */}
+      <motion.footer
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, delay: 1 }}
+        className="fixed bottom-0 left-0 right-0 bg-background/80 backdrop-blur-sm border-t border-border/50"
+      >
+        <div className="container mx-auto px-6 py-4">
+          <p className="text-sm text-muted-foreground text-center font-medium">
+            © 2025 Md Arshad. All rights reserved.
+          </p>
+        </div>
+      </motion.footer>
     </div>
   );
 };
