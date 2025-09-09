@@ -19,7 +19,7 @@ interface InteractiveStepProps {
   children: ReactNode;
 }
 
-export const InteractiveStep = ({
+const InteractiveStep = ({
   title,
   stepNumber,
   isVisible,
@@ -65,3 +65,6 @@ export const InteractiveStep = ({
     </motion.div>
   );
 };
+
+export { InteractiveStep };
+export default InteractiveStep;
