@@ -103,6 +103,11 @@ export default {
       fontFamily: {
         mono: ["JetBrains Mono", "Fira Code", "ui-monospace", "monospace"],
       },
+      boxShadow: {
+        "neon": "var(--shadow-neon)",
+        "purple": "var(--shadow-purple)",
+        "glass": "var(--shadow-glass)",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],
