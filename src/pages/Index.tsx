@@ -213,15 +213,125 @@ const Index = () => {
             </div>
           </InteractiveStep>
 
-          {/* Step 2: Binary Conversion */}
+          {/* Step 2: Binary Conversion with 4-bit Blocks */}
           <InteractiveStep
-            title="Hex to Binary Conversion"
+            title="Hex → Binary (4-bit Blocks)"
             stepNumber={2}
             isVisible={currentStep >= 1 && !!binary}
             delay={0.5}
-            tooltip="Each hexadecimal character is converted to its 4-bit binary representation. This creates a long string of 1s and 0s that we can work with mathematically."
+            tooltip="Each hexadecimal character converts to exactly 4 binary bits. Watch the conversion happen character by character!"
           >
-            <EnhancedBinaryDisplay binary={binary} />
+            <div className="space-y-6">
+              {/* Hex to Binary Mapping Demo */}
+              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl border-2 border-blue-200">
+                <div className="text-center mb-6">
+                  <h4 className="text-lg font-semibold text-blue-800 mb-2">Character-by-Character Conversion</h4>
+                  <p className="text-sm text-blue-600">Each hex digit transforms into 4 binary bits</p>
+                </div>
+                
+                {/* Conversion Display */}
+                <div className="grid gap-4 max-h-64 overflow-y-auto">
+                  {qrngData && qrngData.split('').map((hexChar, index) => {
+                    const binaryValue = parseInt(hexChar, 16).toString(2).padStart(4, '0');
+                    return (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.1, duration: 0.4 }}
+                        className="flex items-center justify-center gap-4 p-4 bg-white rounded-lg border border-blue-300 hover-scale"
+                      >
+                        {/* Hex Character */}
+                        <div className="flex flex-col items-center">
+                          <span className="text-xs text-blue-600 font-medium">HEX</span>
+                          <div className="text-2xl font-mono font-bold text-blue-800 bg-blue-100 px-3 py-2 rounded border-2 border-blue-300">
+                            {hexChar.toUpperCase()}
+                          </div>
+                        </div>
+                        
+                        {/* Arrow */}
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          transition={{ delay: index * 0.1 + 0.2, duration: 0.3 }}
+                          className="text-blue-400"
+                        >
+                          →
+                        </motion.div>
+                        
+                        {/* 4-bit Binary */}
+                        <div className="flex flex-col items-center">
+                          <span className="text-xs text-green-600 font-medium">4-BIT BINARY</span>
+                          <div className="flex gap-1">
+                            {binaryValue.split('').map((bit, bitIndex) => (
+                              <motion.div
+                                key={bitIndex}
+                                initial={{ opacity: 0, scale: 0 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ 
+                                  delay: index * 0.1 + bitIndex * 0.05 + 0.3, 
+                                  duration: 0.2,
+                                  type: "spring",
+                                  stiffness: 300
+                                }}
+                                className={`text-lg font-mono font-bold px-2 py-2 rounded border-2 ${
+                                  bit === '1' 
+                                    ? 'bg-green-100 text-green-800 border-green-300' 
+                                    : 'bg-gray-100 text-gray-600 border-gray-300'
+                                }`}
+                              >
+                                {bit}
+                              </motion.div>
+                            ))}
+                          </div>
+                        </div>
+                        
+                        {/* Decimal Value */}
+                        <div className="flex flex-col items-center">
+                          <span className="text-xs text-purple-600 font-medium">DECIMAL</span>
+                          <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: index * 0.1 + 0.5, duration: 0.3 }}
+                            className="text-lg font-mono font-bold text-purple-800 bg-purple-100 px-3 py-2 rounded border-2 border-purple-300"
+                          >
+                            {parseInt(hexChar, 16)}
+                          </motion.div>
+                        </div>
+                      </motion.div>
+                    );
+                  })}
+                </div>
+              </div>
+              
+              {/* Complete Binary String */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: qrngData ? qrngData.length * 0.1 + 1 : 1, duration: 0.5 }}
+                className="bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-xl border-2 border-green-200"
+              >
+                <h4 className="text-lg font-semibold text-green-800 mb-4 text-center">Complete Binary String</h4>
+                <div className="code-display font-mono text-sm break-all bg-white border-green-300 p-4">
+                  {binary && binary.split('').map((bit, index) => (
+                    <motion.span
+                      key={index}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: Math.floor(index / 4) * 0.05, duration: 0.1 }}
+                      className={`${bit === '1' ? 'text-green-600' : 'text-gray-500'} ${
+                        index % 4 === 3 ? 'mr-2' : ''
+                      }`}
+                    >
+                      {bit}
+                    </motion.span>
+                  ))}
+                </div>
+                <div className="text-sm text-green-700 text-center mt-4 bg-green-100 p-3 rounded-lg border border-green-300">
+                  <strong>Result:</strong> {binary ? binary.length : 0} bits ready for chunking into 6-bit groups
+                </div>
+              </motion.div>
+            </div>
           </InteractiveStep>
 
           {/* Step 3: 6-bit Chunking */}
