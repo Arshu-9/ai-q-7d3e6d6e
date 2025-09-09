@@ -1,185 +1,9 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { Copy, ChevronRight, Zap, Binary } from "lucide-react";
+import { Copy, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-
-interface ChunkVisualizationProps {
-  binaryString: string;
-}
-
-const ChunkVisualization = ({ binaryString }: ChunkVisualizationProps) => {
-  const chunks = binaryString.match(/.{1,6}/g) || [];
-  const paddedChunks = chunks.map(chunk => chunk.padEnd(6, '0'));
-  
-  const colors = [
-    'bg-blue-500/20 border-blue-400 text-blue-300',
-    'bg-emerald-500/20 border-emerald-400 text-emerald-300',
-    'bg-purple-500/20 border-purple-400 text-purple-300',
-    'bg-amber-500/20 border-amber-400 text-amber-300',
-    'bg-rose-500/20 border-rose-400 text-rose-300',
-  ];
-
-  return (
-    <div className="space-y-3">
-      {/* Animated Background */}
-      <div className="relative overflow-hidden rounded-lg bg-gradient-to-r from-primary/5 via-secondary/5 to-primary/5 p-4">
-        {/* Floating particles */}
-        {Array.from({ length: 8 }, (_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-primary/40 rounded-full"
-            animate={{
-              x: [0, 100, 0],
-              y: [0, -20, 0],
-              opacity: [0, 1, 0],
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              delay: i * 0.4,
-              ease: "easeInOut"
-            }}
-            style={{
-              left: `${Math.random() * 80}%`,
-              top: `${Math.random() * 80}%`,
-            }}
-          />
-        ))}
-        
-        {/* Binary Stream Visualization */}
-        <div className="relative space-y-2">
-          <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
-            <Binary className="w-3 h-3" />
-            <span>Binary Stream Segmentation</span>
-          </div>
-          
-          {/* Full binary with chunk separators */}
-          <div className="font-mono text-sm text-foreground/80 p-2 bg-background/50 rounded border">
-            {paddedChunks.map((chunk, index) => (
-              <motion.span
-                key={index}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: index * 0.3, duration: 0.5 }}
-                className="inline-block"
-              >
-                {chunk.split('').map((bit, bitIndex) => (
-                  <motion.span
-                    key={`${index}-${bitIndex}`}
-                    className={`inline-block px-0.5 mx-0.5 rounded ${
-                      bit === '1' ? 'bg-primary/30 text-primary' : 'bg-muted/30 text-muted-foreground'
-                    }`}
-                    animate={{
-                      scale: [1, 1.1, 1],
-                      opacity: [0.7, 1, 0.7],
-                    }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      delay: (index * 6 + bitIndex) * 0.1,
-                    }}
-                  >
-                    {bit}
-                  </motion.span>
-                ))}
-                {index < paddedChunks.length - 1 && (
-                  <motion.span
-                    className="text-primary/60 mx-1"
-                    animate={{ opacity: [0.5, 1, 0.5] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                  >
-                    |
-                  </motion.span>
-                )}
-              </motion.span>
-            ))}
-          </div>
-          
-          {/* Individual chunks display */}
-          <div className="flex flex-wrap gap-2 mt-4">
-            {paddedChunks.map((chunk, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20, rotateY: -90 }}
-                animate={{ opacity: 1, y: 0, rotateY: 0 }}
-                transition={{ 
-                  delay: index * 0.2, 
-                  duration: 0.6,
-                  type: "spring",
-                  stiffness: 100
-                }}
-                className={`relative px-3 py-2 rounded-lg border-2 font-mono text-xs font-semibold ${
-                  colors[index % colors.length]
-                } shadow-lg backdrop-blur-sm`}
-                style={{
-                  transform: 'perspective(1000px) rotateX(5deg)',
-                }}
-              >
-                {/* Lightning effect for active chunks */}
-                <motion.div
-                  className="absolute -top-1 -right-1"
-                  animate={{
-                    scale: [0, 1, 0],
-                    rotate: [0, 180, 360],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    delay: index * 0.5,
-                  }}
-                >
-                  <Zap className="w-3 h-3 text-primary" />
-                </motion.div>
-                
-                <div className="space-y-1">
-                  <div className="text-center">{chunk}</div>
-                  <div className="text-[10px] text-center opacity-70">
-                    #{index + 1}
-                  </div>
-                </div>
-                
-                {/* Quantum glow effect */}
-                <motion.div
-                  className="absolute inset-0 rounded-lg border border-primary/30"
-                  animate={{
-                    boxShadow: [
-                      '0 0 0 0 rgba(59, 130, 246, 0)',
-                      '0 0 0 4px rgba(59, 130, 246, 0.3)',
-                      '0 0 0 0 rgba(59, 130, 246, 0)',
-                    ],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    delay: index * 0.3,
-                  }}
-                />
-              </motion.div>
-            ))}
-          </div>
-          
-          {/* Statistics */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
-            className="text-xs text-muted-foreground text-center pt-2 border-t border-border/50"
-          >
-            <div className="flex justify-center gap-4">
-              <span>Total chunks: {paddedChunks.length}</span>
-              <span>•</span>
-              <span>Bits per chunk: 6</span>
-              <span>•</span>
-              <span>Total bits: {binaryString.length}</span>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 interface ConversionStep {
   title: string;
@@ -231,8 +55,8 @@ export const InteractiveStepFlow = ({ qubits, onFinalKey }: InteractiveStepFlowP
       {
         title: "6-bit Chunks",
         data: chunks.join(' | '),
-        description: "Quantum Bit Segmentation Lab",
-        icon: "⚡"
+        description: "Split for Base62 conversion",
+        icon: "✂️"
       },
       {
         title: "Base62 Key",
@@ -315,11 +139,7 @@ export const InteractiveStepFlow = ({ qubits, onFinalKey }: InteractiveStepFlowP
                       transition={{ duration: 0.5 }}
                       className="font-mono text-xs bg-background/50 p-2 rounded border break-all"
                     >
-                      {index === 2 ? (
-                        <ChunkVisualization binaryString={qubits.join('')} />
-                      ) : (
-                        step.data
-                      )}
+                      {step.data}
                     </motion.div>
                   )}
                 </CardContent>
