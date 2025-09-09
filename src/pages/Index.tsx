@@ -6,6 +6,7 @@ import { BinaryDisplay } from "@/components/BinaryDisplay";
 import { ChunkDisplay } from "@/components/ChunkDisplay";
 import { MappingDisplay } from "@/components/MappingDisplay";
 import { FinalKeyDisplay } from "@/components/FinalKeyDisplay";
+import { QuantumHeader } from "@/components/QuantumHeader";
 
 const Index = () => {
   const [qrngData, setQrngData] = useState<string>("");
@@ -105,20 +106,7 @@ const Index = () => {
     <div className="min-h-screen">
       <div className="container mx-auto px-6 py-8">
         {/* Header */}
-        <motion.header 
-          initial={{ opacity: 0, y: -30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center py-12"
-        >
-          <h1 className="elegant-title mb-4">
-            Quantum Key Generator
-          </h1>
-          <p className="text-xl text-muted-foreground font-medium">
-            Advanced Cryptographic Key Generation with Visual Process Demonstration
-          </p>
-          <div className="section-divider max-w-md mx-auto mt-8" />
-        </motion.header>
+        <QuantumHeader />
 
         {/* Generate Button */}
         <motion.div 
