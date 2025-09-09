@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { GraduationCap } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Loader2, Zap, Sparkles } from "lucide-react";
-import { InteractiveStep } from "@/components/InteractiveStepFlow";
+import { ConversionStep } from "@/components/ConversionStep";
 import { EnhancedBinaryDisplay } from "@/components/EnhancedBinaryDisplay";
 import { AnimatedChunkDisplay } from "@/components/AnimatedChunkDisplay";
 import { InteractiveMappingDisplay } from "@/components/InteractiveMappingDisplay";

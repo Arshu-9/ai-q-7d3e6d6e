@@ -1,178 +1,244 @@
 import { motion } from "framer-motion";
-import { Shield, AlertTriangle, TrendingUp, Copy, CheckCircle } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Zap, Calculator, Trophy } from "lucide-react";
 
-interface ComparisonProps {
-  quantumKey: string;
-  prngKey: string;
+interface ComparisonData {
+  quantum: string[];
+  prng: string[];
 }
 
-export const ComparisonPanel = ({ quantumKey, prngKey }: ComparisonProps) => {
-  const [copiedQuantum, setCopiedQuantum] = useState(false);
-  const [copiedPrng, setCopiedPrng] = useState(false);
+interface ComparisonPanelProps {
+  newQuantumKey?: string;
+}
 
-  const copyToClipboard = async (text: string, type: 'quantum' | 'prng') => {
-    await navigator.clipboard.writeText(text);
-    if (type === 'quantum') {
-      setCopiedQuantum(true);
-      setTimeout(() => setCopiedQuantum(false), 2000);
-    } else {
-      setCopiedPrng(true);
-      setTimeout(() => setCopiedPrng(false), 2000);
-    }
+export const ComparisonPanel = ({ newQuantumKey }: ComparisonPanelProps) => {
+  const [data, setData] = useState<ComparisonData>({ quantum: [], prng: [] });
+  const [winner, setWinner] = useState<'quantum' | 'prng' | null>(null);
+
+  // Generate PRNG key
+  const generatePRNGKey = () => {
+    const base62Chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    return Array.from({ length: 1 }, () => 
+      base62Chars[Math.floor(Math.random() * base62Chars.length)]
+    ).join('');
   };
 
-  const comparisonData = [
-    {
-      aspect: "Predictability",
-      quantum: "Truly Random",
-      prng: "Predictable if seed known",
-      quantumIcon: <Shield className="w-4 h-4 text-green-600" />,
-      prngIcon: <AlertTriangle className="w-4 h-4 text-orange-500" />
-    },
-    {
-      aspect: "Entropy Level",
-      quantum: "Maximum Entropy",
-      prng: "Lower Entropy",
-      quantumIcon: <TrendingUp className="w-4 h-4 text-green-600" />,
-      prngIcon: <TrendingUp className="w-4 h-4 text-orange-500" />
-    },
-    {
-      aspect: "Security Level",
-      quantum: "Ultra-Secure",
-      prng: "Standard Security",
-      quantumIcon: <Shield className="w-4 h-4 text-green-600" />,
-      prngIcon: <Shield className="w-4 h-4 text-orange-500" />
+  useEffect(() => {
+    if (newQuantumKey) {
+      const prngKey = generatePRNGKey();
+      setData(prev => ({
+        quantum: [newQuantumKey, ...prev.quantum.slice(0, 4)],
+        prng: [prngKey, ...prev.prng.slice(0, 4)]
+      }));
+
+      // Animate the "battle"
+      setWinner(null);
+      setTimeout(() => setWinner('quantum'), 1000);
     }
-  ];
+  }, [newQuantumKey]);
+
+  const calculateEntropy = (keys: string[]) => {
+    if (keys.length === 0) return 0;
+    const allChars = keys.join('').split('');
+    const counts = allChars.reduce((acc, char) => {
+      acc[char] = (acc[char] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+    
+    const total = allChars.length;
+    let entropy = 0;
+    Object.values(counts).forEach(count => {
+      const p = count / total;
+      entropy -= p * Math.log2(p);
+    });
+    return entropy;
+  };
+
+  const quantumEntropy = calculateEntropy(data.quantum);
+  const prngEntropy = calculateEntropy(data.prng);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.5 }}
-      className="premium-panel p-6 space-y-6"
-    >
-      <h2 className="text-2xl font-bold text-foreground text-center mb-6">
-        Security Comparison
-      </h2>
+    <div className="space-y-6">
+      <div className="text-center">
+        <h3 className="text-xl font-semibold mb-2">Quantum vs Classical Battle</h3>
+        <p className="text-muted-foreground">Watch quantum randomness compete against classical algorithms</p>
+      </div>
 
-      {/* Key Display Cards */}
       <div className="grid md:grid-cols-2 gap-6">
-        {/* Quantum Key Card */}
+        {/* Quantum Side */}
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.7 }}
-          className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 rounded-xl p-6"
+          initial={{ x: -50, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.6 }}
         >
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-green-800">Quantum Key</h3>
-            <Shield className="w-6 h-6 text-green-600" />
-          </div>
-          
-          <div className="code-display bg-white border-green-200 mb-4">
-            <div className="text-2xl font-mono text-green-700 tracking-wider text-center">
-              {quantumKey}
-            </div>
-          </div>
-          
-          <motion.button
-            onClick={() => copyToClipboard(quantumKey, 'quantum')}
-            className="w-full bg-green-600 text-white py-2 px-4 rounded-lg flex items-center justify-center space-x-2 hover:bg-green-700 transition-colors"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            {copiedQuantum ? (
-              <>
-                <CheckCircle className="w-4 h-4" />
-                <span>Copied!</span>
-              </>
-            ) : (
-              <>
-                <Copy className="w-4 h-4" />
-                <span>Copy Quantum Key</span>
-              </>
-            )}
-          </motion.button>
+          <Card className={`premium-panel transition-all duration-500 ${
+            winner === 'quantum' ? 'ring-2 ring-primary shadow-primary/20 shadow-lg' : ''
+          }`}>
+            <CardHeader>
+              <CardTitle className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Zap className="w-5 h-5 text-primary" />
+                  Quantum Random
+                </div>
+                {winner === 'quantum' && (
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: "spring", duration: 0.5 }}
+                  >
+                    <Badge variant="default" className="bg-primary">
+                      <Trophy className="w-3 h-3 mr-1" />
+                      Winner
+                    </Badge>
+                  </motion.div>
+                )}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-medium">Entropy Score</span>
+                  <span className="text-sm font-mono text-primary">
+                    {quantumEntropy.toFixed(3)}
+                  </span>
+                </div>
+                <div className="h-2 bg-muted rounded-full overflow-hidden">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${Math.min((quantumEntropy / 6) * 100, 100)}%` }}
+                    transition={{ duration: 1, delay: 0.5 }}
+                    className="h-full bg-gradient-to-r from-primary to-primary/70"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <span className="text-sm font-medium">Generated Keys</span>
+                <div className="space-y-1 max-h-32 overflow-y-auto">
+                  {data.quantum.map((key, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.3, delay: index * 0.1 }}
+                      className="font-mono text-xs p-2 bg-primary/10 rounded border border-primary/20"
+                    >
+                      {key}
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="text-xs text-muted-foreground">
+                <strong>Advantages:</strong>
+                <ul className="mt-1 space-y-1">
+                  <li>• True randomness</li>
+                  <li>• Unpredictable</li>
+                  <li>• Quantum secure</li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
         </motion.div>
 
-        {/* PRNG Key Card */}
+        {/* Classical PRNG Side */}
         <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.9 }}
-          className="bg-gradient-to-br from-orange-50 to-amber-50 border-2 border-orange-200 rounded-xl p-6"
+          initial={{ x: 50, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.6 }}
         >
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-orange-800">General PRNG Key</h3>
-            <AlertTriangle className="w-6 h-6 text-orange-500" />
-          </div>
-          
-          <div className="code-display bg-white border-orange-200 mb-4">
-            <div className="text-2xl font-mono text-orange-700 tracking-wider text-center">
-              {prngKey}
-            </div>
-          </div>
-          
-          <motion.button
-            onClick={() => copyToClipboard(prngKey, 'prng')}
-            className="w-full bg-orange-500 text-white py-2 px-4 rounded-lg flex items-center justify-center space-x-2 hover:bg-orange-600 transition-colors"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            {copiedPrng ? (
-              <>
-                <CheckCircle className="w-4 h-4" />
-                <span>Copied!</span>
-              </>
-            ) : (
-              <>
-                <Copy className="w-4 h-4" />
-                <span>Copy PRNG Key</span>
-              </>
-            )}
-          </motion.button>
+          <Card className={`premium-panel transition-all duration-500 ${
+            winner === 'prng' ? 'ring-2 ring-secondary shadow-secondary/20 shadow-lg' : ''
+          }`}>
+            <CardHeader>
+              <CardTitle className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Calculator className="w-5 h-5 text-secondary" />
+                  Classical PRNG
+                </div>
+                {winner === 'prng' && (
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: "spring", duration: 0.5 }}
+                  >
+                    <Badge variant="secondary">
+                      <Trophy className="w-3 h-3 mr-1" />
+                      Winner
+                    </Badge>
+                  </motion.div>
+                )}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-medium">Entropy Score</span>
+                  <span className="text-sm font-mono text-secondary">
+                    {prngEntropy.toFixed(3)}
+                  </span>
+                </div>
+                <div className="h-2 bg-muted rounded-full overflow-hidden">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${Math.min((prngEntropy / 6) * 100, 100)}%` }}
+                    transition={{ duration: 1, delay: 0.7 }}
+                    className="h-full bg-gradient-to-r from-secondary to-secondary/70"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <span className="text-sm font-medium">Generated Keys</span>
+                <div className="space-y-1 max-h-32 overflow-y-auto">
+                  {data.prng.map((key, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: 10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.3, delay: index * 0.1 }}
+                      className="font-mono text-xs p-2 bg-secondary/10 rounded border border-secondary/20"
+                    >
+                      {key}
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="text-xs text-muted-foreground">
+                <strong>Limitations:</strong>
+                <ul className="mt-1 space-y-1">
+                  <li>• Pseudo-random</li>
+                  <li>• Predictable patterns</li>
+                  <li>• Seed dependent</li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
         </motion.div>
       </div>
 
-      {/* Comparison Table */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 1.1 }}
-        className="bg-muted rounded-lg overflow-hidden"
-      >
-        <div className="grid grid-cols-3 bg-gradient-to-r from-royal-blue to-royal-blue-dark text-white p-4">
-          <div className="font-semibold">Aspect</div>
-          <div className="font-semibold text-center">Quantum Key</div>
-          <div className="font-semibold text-center">General PRNG</div>
-        </div>
-        
-        {comparisonData.map((row, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.3, delay: 1.3 + index * 0.1 }}
-            className="grid grid-cols-3 p-4 border-b border-border last:border-b-0 hover:bg-accent/50 transition-colors"
-          >
-            <div className="font-medium text-foreground">{row.aspect}</div>
-            <div className="text-center flex items-center justify-center space-x-2">
-              {row.quantumIcon}
-              <span className="text-sm">{row.quantum}</span>
-            </div>
-            <div className="text-center flex items-center justify-center space-x-2">
-              {row.prngIcon}
-              <span className="text-sm">{row.prng}</span>
-            </div>
-          </motion.div>
-        ))}
-      </motion.div>
-
-      <div className="text-sm text-muted-foreground text-center bg-blue-50 p-4 rounded-lg border border-blue-200">
-        <strong className="text-blue-700">Why Quantum Keys Matter:</strong> Quantum keys are generated from quantum mechanical processes, making them truly random and impossible to predict. This makes them ideal for ultra-secure applications where security is paramount.
-      </div>
-    </motion.div>
+      {/* Battle Result */}
+      {winner && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="text-center p-6 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg border border-primary/20"
+        >
+          <h4 className="text-lg font-semibold mb-2">
+            {winner === 'quantum' ? 'Quantum Wins!' : 'PRNG Wins!'}
+          </h4>
+          <p className="text-sm text-muted-foreground">
+            {winner === 'quantum' 
+              ? 'Quantum randomness provides superior entropy and true unpredictability!' 
+              : 'Classical PRNG performed surprisingly well this round!'
+            }
+          </p>
+        </motion.div>
+      )}
+    </div>
   );
 };

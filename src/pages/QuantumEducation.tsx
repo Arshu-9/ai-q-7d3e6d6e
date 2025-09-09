@@ -1,16 +1,21 @@
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, Atom, Zap, GitBranch, Copy, BarChart3, TrendingUp, Shuffle } from "lucide-react";
+import { Atom, Zap, GitBranch, Copy, BarChart3, Shuffle, Sparkles, Brain } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { QuantumHeader } from "@/components/QuantumHeader";
+import { EnhancedBinaryDisplay } from "@/components/EnhancedBinaryDisplay";
+import { InteractiveStepFlow } from "@/components/InteractiveStepFlow";
+import { ComparisonPanel } from "@/components/ComparisonPanel";
 
 interface QubitProps {
   isGenerating: boolean;
   value?: number;
   delay?: number;
   index: number;
+  probability?: number;
+  onMeasure?: () => void;
 }
 
 interface ConversionStep {
@@ -24,90 +29,148 @@ interface EntropyData {
   prng: number[];
 }
 
-const Qubit = ({ isGenerating, value, delay = 0, index }: QubitProps) => {
+const Qubit = ({ isGenerating, value, delay = 0, index, probability = 0.5, onMeasure }: QubitProps) => {
   const getQubitColor = () => {
     if (value === undefined) return "hsl(var(--muted))";
     return value === 1 ? "hsl(var(--primary))" : "hsl(var(--secondary))";
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5, delay }}
-      className="relative w-24 h-24 mx-auto"
-    >
-      {/* Quantum field rings */}
+    <div className="space-y-4">
+      {/* Probability Bar */}
+      <div className="w-24 h-2 bg-muted rounded-full overflow-hidden mx-auto">
+        <motion.div
+          className="h-full bg-gradient-to-r from-secondary via-muted to-primary"
+          animate={{ 
+            width: isGenerating ? ["50%", "80%", "20%", "50%"] : `${probability * 100}%` 
+          }}
+          transition={{ 
+            duration: isGenerating ? 2 : 0.5, 
+            repeat: isGenerating ? Infinity : 0,
+            ease: "easeInOut"
+          }}
+        />
+      </div>
+
       <motion.div
-        animate={{
-          rotate: isGenerating ? 360 : 0,
-          scale: isGenerating ? [1, 1.2, 1] : 1,
-        }}
-        transition={{
-          rotate: { duration: 2, repeat: isGenerating ? Infinity : 0, ease: "linear" },
-          scale: { duration: 1.5, repeat: isGenerating ? Infinity : 0 },
-        }}
-        className="absolute inset-0 rounded-full border-2 border-primary/20"
-      />
-      
-      {/* Inner qubit core */}
-      <motion.div
-        animate={{
-          rotateY: isGenerating ? 360 : 0,
-          backgroundColor: getQubitColor(),
-          boxShadow: value !== undefined 
-            ? (value === 1 ? "0 0 20px hsl(var(--primary) / 0.5)" : "0 0 20px hsl(var(--secondary) / 0.5)")
-            : "0 0 10px hsl(var(--muted) / 0.3)",
-        }}
-        transition={{
-          rotateY: { duration: 1.5, repeat: isGenerating ? Infinity : 0, ease: "easeInOut" },
-          backgroundColor: { duration: 0.5 },
-          boxShadow: { duration: 0.5 },
-        }}
-        className="absolute inset-2 rounded-full bg-gradient-to-br from-background/80 to-muted/50 flex items-center justify-center border border-border/50"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, delay }}
+        className="relative w-24 h-24 mx-auto cursor-pointer"
+        onClick={onMeasure}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
       >
-        {/* State display */}
+        {/* 3D Sphere Effect */}
         <motion.div
           animate={{
-            opacity: value !== undefined ? 1 : (isGenerating ? [0.3, 1, 0.3] : 0.6),
-            scale: value !== undefined ? [1, 1.2, 1] : 1,
+            rotateX: isGenerating ? 360 : 0,
+            rotateY: isGenerating ? 360 : 0,
           }}
           transition={{
-            opacity: { duration: 0.8, repeat: isGenerating ? Infinity : 0 },
-            scale: { duration: 0.3 },
+            rotateX: { duration: 3, repeat: isGenerating ? Infinity : 0, ease: "linear" },
+            rotateY: { duration: 2, repeat: isGenerating ? Infinity : 0, ease: "linear" },
           }}
-          className="text-lg font-bold"
-          style={{ color: value !== undefined ? (value === 1 ? "hsl(var(--primary))" : "hsl(var(--secondary))") : "hsl(var(--muted-foreground))" }}
+          className="absolute inset-0 rounded-full border-2 border-primary/30"
+          style={{
+            background: `conic-gradient(from 0deg, ${getQubitColor()}, transparent, ${getQubitColor()})`,
+          }}
+        />
+        
+        {/* Quantum field rings */}
+        <motion.div
+          animate={{
+            rotate: isGenerating ? 360 : 0,
+            scale: isGenerating ? [1, 1.3, 1] : 1,
+          }}
+          transition={{
+            rotate: { duration: 2, repeat: isGenerating ? Infinity : 0, ease: "linear" },
+            scale: { duration: 1.5, repeat: isGenerating ? Infinity : 0 },
+          }}
+          className="absolute inset-0 rounded-full border border-primary/20"
+        />
+        
+        {/* Inner qubit core */}
+        <motion.div
+          animate={{
+            backgroundColor: getQubitColor(),
+            boxShadow: value !== undefined 
+              ? (value === 1 ? "0 0 30px hsl(var(--primary) / 0.6)" : "0 0 30px hsl(var(--secondary) / 0.6)")
+              : "0 0 15px hsl(var(--muted) / 0.4)",
+          }}
+          transition={{
+            backgroundColor: { duration: 0.5 },
+            boxShadow: { duration: 0.5 },
+          }}
+          className="absolute inset-2 rounded-full bg-gradient-to-br from-background/80 to-muted/50 flex items-center justify-center border border-border/50 backdrop-blur-sm"
         >
-          {value !== undefined ? value : "?"}
+          {/* State display */}
+          <motion.div
+            animate={{
+              opacity: value !== undefined ? 1 : (isGenerating ? [0.3, 1, 0.3] : 0.6),
+              scale: value !== undefined ? [1, 1.3, 1] : 1,
+              rotateY: isGenerating ? [0, 180, 360] : 0,
+            }}
+            transition={{
+              opacity: { duration: 0.8, repeat: isGenerating ? Infinity : 0 },
+              scale: { duration: 0.4 },
+              rotateY: { duration: 1.5, repeat: isGenerating ? Infinity : 0 },
+            }}
+            className="text-lg font-bold"
+            style={{ color: value !== undefined ? (value === 1 ? "hsl(var(--primary))" : "hsl(var(--secondary))") : "hsl(var(--muted-foreground))" }}
+          >
+            {value !== undefined ? value : "⚛"}
+          </motion.div>
         </motion.div>
+
+        {/* Particle effects */}
+        {isGenerating && Array.from({ length: 6 }, (_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 bg-primary/60 rounded-full"
+            animate={{
+              rotate: 360,
+              scale: [0, 1, 0],
+            }}
+            transition={{
+              rotate: { duration: 2 + i * 0.2, repeat: Infinity, ease: "linear" },
+              scale: { duration: 1, repeat: Infinity, delay: i * 0.3 },
+            }}
+            style={{
+              top: "50%",
+              left: "50%",
+              transformOrigin: `${20 + i * 5}px 0px`,
+            }}
+          />
+        ))}
+
+        {/* Quantum glow when measured */}
+        {value !== undefined && (
+          <motion.div
+            className={`absolute inset-0 rounded-full ${
+              value === 1 ? 'bg-primary/20' : 'bg-secondary/20'
+            }`}
+            animate={{ 
+              scale: [1, 1.5, 1],
+              opacity: [0.6, 0, 0.6] 
+            }}
+            transition={{ 
+              duration: 2, 
+              repeat: Infinity, 
+              ease: "easeInOut" 
+            }}
+          />
+        )}
       </motion.div>
 
-      {/* Superposition orbits */}
-      {isGenerating && (
-        <>
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-            className="absolute inset-0"
-          >
-            <div className="absolute top-0 left-1/2 w-1.5 h-1.5 bg-primary rounded-full transform -translate-x-1/2" />
-          </motion.div>
-          <motion.div
-            animate={{ rotate: -360 }}
-            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-            className="absolute inset-0"
-          >
-            <div className="absolute bottom-0 left-1/2 w-1.5 h-1.5 bg-secondary rounded-full transform -translate-x-1/2" />
-          </motion.div>
-        </>
-      )}
-
       {/* Qubit label */}
-      <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs text-muted-foreground">
-        Q{index + 1}
+      <div className="text-center">
+        <div className="text-xs text-muted-foreground">Q{index + 1}</div>
+        <div className="text-xs text-muted-foreground mt-1">
+          P(1): {(probability * 100).toFixed(0)}%
+        </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
@@ -278,30 +341,32 @@ const EducationCard = ({ title, description, icon: Icon, content }: EducationCar
 };
 
 const QuantumEducation = () => {
-  const navigate = useNavigate();
   const { toast } = useToast();
   const conversionRef = useRef<HTMLDivElement>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [qubits, setQubits] = useState<number[]>([]);
-  const [currentStep, setCurrentStep] = useState(0);
-  const [conversionSteps, setConversionSteps] = useState<ConversionStep[]>([]);
+  const [probabilities, setProbabilities] = useState<number[]>(Array(5).fill(0.5));
+  const [finalKey, setFinalKey] = useState<string>("");
   const [entropyData, setEntropyData] = useState<EntropyData>({ quantum: [], prng: [] });
   const [generatedKeys, setGeneratedKeys] = useState<string[]>([]);
 
   const generateQuantumKey = async () => {
     setIsGenerating(true);
     setQubits([]);
-    setCurrentStep(0);
-    setConversionSteps([]);
+    setFinalKey("");
+    
+    // Generate new probabilities for this round
+    const newProbabilities = Array.from({ length: 5 }, () => 0.3 + Math.random() * 0.4);
+    setProbabilities(newProbabilities);
     
     // Scroll to conversion section
     setTimeout(() => {
       conversionRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, 500);
 
-    // Step 1: Generate qubits
+    // Step 1: Generate qubits with probabilities
     setTimeout(() => {
-      const newQubits = Array.from({ length: 5 }, () => Math.round(Math.random()));
+      const newQubits = newProbabilities.map(prob => Math.random() < prob ? 1 : 0);
       setQubits(newQubits);
       
       // Update entropy data
@@ -309,85 +374,34 @@ const QuantumEducation = () => {
         quantum: [...prev.quantum, ...newQubits],
         prng: [...prev.prng, ...Array.from({ length: 5 }, () => Math.round(Math.random()))]
       }));
-      
-      setCurrentStep(1);
     }, 1000);
 
-    // Step 2: Convert to hex
+    // Wait for binary display to complete before showing final key
     setTimeout(() => {
-      const binaryString = qubits.join('');
-      const hexValue = parseInt(binaryString, 2).toString(16).toUpperCase();
-      setConversionSteps(prev => [...prev, {
-        title: "1. Qubits → Hexadecimal",
-        data: hexValue,
-        description: "Convert qubit measurements to hexadecimal format"
-      }]);
-      setCurrentStep(2);
-    }, 2000);
-
-    // Step 3: Convert to binary
-    setTimeout(() => {
-      const binaryString = qubits.join('');
-      setConversionSteps(prev => [...prev, {
-        title: "2. Hex → Binary",
-        data: binaryString,
-        description: "Convert hexadecimal to binary representation"
-      }]);
-      setCurrentStep(3);
-    }, 3000);
-
-    // Step 4: Create chunks
-    setTimeout(() => {
-      const binaryString = qubits.join('');
-      const chunks = binaryString.match(/.{1,6}/g) || [];
-      setConversionSteps(prev => [...prev, {
-        title: "3. Binary → 6-bit Chunks",
-        data: chunks.join(' | '),
-        description: "Split binary into 6-bit chunks for Base62 conversion"
-      }]);
-      setCurrentStep(4);
-    }, 4000);
-
-    // Step 5: Convert to Base62
-    setTimeout(() => {
-      const binaryString = qubits.join('');
-      const chunks = binaryString.match(/.{1,6}/g) || [];
-      const base62Chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-      const base62 = chunks.map(chunk => {
-        const paddedChunk = chunk.padEnd(6, '0');
-        const value = parseInt(paddedChunk, 2);
-        return base62Chars[value % 62];
-      }).join('');
-      
-      setConversionSteps(prev => [...prev, {
-        title: "4. Chunks → Base62",
-        data: base62,
-        description: "Convert each chunk to Base62 character"
-      }]);
-      setCurrentStep(5);
-    }, 5000);
-
-    // Step 6: Final alphanumeric key
-    setTimeout(() => {
-      const binaryString = qubits.join('');
-      const chunks = binaryString.match(/.{1,6}/g) || [];
-      const base62Chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-      const finalKey = chunks.map(chunk => {
-        const paddedChunk = chunk.padEnd(6, '0');
-        const value = parseInt(paddedChunk, 2);
-        return base62Chars[value % 62];
-      }).join('');
-      
-      setConversionSteps(prev => [...prev, {
-        title: "5. Final Alphanumeric Key",
-        data: finalKey,
-        description: "Secure quantum-generated alphanumeric key ready for use"
-      }]);
-      
-      setGeneratedKeys(prev => [finalKey, ...prev.slice(0, 4)]);
-      setCurrentStep(6);
       setIsGenerating(false);
-    }, 6000);
+    }, 3000);
+  };
+
+  const handleMeasureQubit = (index: number) => {
+    if (isGenerating || qubits[index] !== undefined) return;
+    
+    const newQubits = [...qubits];
+    newQubits[index] = Math.random() < probabilities[index] ? 1 : 0;
+    setQubits(newQubits);
+  };
+
+  const handleBinaryComplete = (binary: string) => {
+    // Convert to final key
+    const chunks = binary.match(/.{1,6}/g) || [];
+    const base62Chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    const key = chunks.map(chunk => {
+      const paddedChunk = chunk.padEnd(6, '0');
+      const value = parseInt(paddedChunk, 2);
+      return base62Chars[value % 62];
+    }).join('');
+    
+    setFinalKey(key);
+    setGeneratedKeys(prev => [key, ...prev.slice(0, 4)]);
   };
 
   const copyToClipboard = (text: string) => {
@@ -432,35 +446,33 @@ const QuantumEducation = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
-      {/* Header */}
-      <motion.header
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="border-b border-border/50 bg-background/80 backdrop-blur-sm"
-      >
-        <div className="container mx-auto px-6 py-6">
-          <div className="flex items-center gap-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => navigate("/")}
-              className="hover:bg-muted/50"
-            >
-              <ArrowLeft className="w-5 h-5" />
-            </Button>
-            <div>
-              <h1 className="elegant-title text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                Quantum Visualization & Education
-              </h1>
-              <p className="text-muted-foreground mt-1">
-                Explore the fascinating world of quantum randomness
-              </p>
-            </div>
-          </div>
-        </div>
-      </motion.header>
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 relative overflow-hidden">
+      {/* Background particles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {Array.from({ length: 30 }, (_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-0.5 h-0.5 bg-primary/30 rounded-full"
+            animate={{
+              x: [0, window.innerWidth || 1920],
+              y: [window.innerHeight || 1080, 0],
+              opacity: [0, 1, 0],
+            }}
+            transition={{
+              duration: 8 + Math.random() * 4,
+              repeat: Infinity,
+              delay: Math.random() * 5,
+              ease: "linear"
+            }}
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+            }}
+          />
+        ))}
+      </div>
+
+      <QuantumHeader />
 
       <div className="container mx-auto px-6 py-12 space-y-16">
         {/* Quantum Visualization Section */}
@@ -479,7 +491,7 @@ const QuantumEducation = () => {
           </p>
 
           {/* Qubit Display */}
-          <div className="grid grid-cols-5 gap-6 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-12">
             {Array.from({ length: 5 }, (_, i) => (
               <div key={i} className="space-y-4">
                 <Qubit
@@ -487,6 +499,8 @@ const QuantumEducation = () => {
                   value={qubits[i]}
                   delay={i * 0.2}
                   index={i}
+                  probability={probabilities[i]}
+                  onMeasure={() => handleMeasureQubit(i)}
                 />
               </div>
             ))}
@@ -512,77 +526,51 @@ const QuantumEducation = () => {
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
-                  <Zap className="w-5 h-5" />
+                  <Sparkles className="w-5 h-5" />
                   Generate Quantum Key
                 </div>
               )}
             </Button>
             
             <p className="text-sm text-muted-foreground">
-              Watch the step-by-step conversion process below
+              Click qubits to measure individually or use the button above
             </p>
           </div>
         </motion.section>
 
-        {/* Step-by-Step Conversion */}
-        <motion.section
-          ref={conversionRef}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
-          <h2 className="elegant-title text-2xl font-semibold text-center mb-8">
-            Live Conversion Process
-          </h2>
-          
-          <div className="max-w-3xl mx-auto space-y-4">
-            {conversionSteps.map((step, index) => (
-              <ConversionStepDisplay
-                key={index}
-                step={step}
-                isActive={currentStep > index + 1}
-                data={step.data}
-              />
-            ))}
-          </div>
+        {/* Binary Display and Step Flow */}
+        {qubits.length > 0 && (
+          <motion.section
+            ref={conversionRef}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="space-y-12"
+          >
+            <EnhancedBinaryDisplay 
+              qubits={qubits} 
+              isGenerating={isGenerating}
+              onComplete={handleBinaryComplete}
+            />
+            
+            <InteractiveStepFlow 
+              qubits={qubits}
+              onFinalKey={setFinalKey}
+            />
+          </motion.section>
+        )}
 
-          {/* Final Key Display */}
-          {generatedKeys.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
-              className="mt-8"
-            >
-              <Card className="premium-panel max-w-2xl mx-auto">
-                <CardHeader>
-                  <CardTitle className="text-center">Generated Quantum Keys</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  {generatedKeys.map((key, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.3, delay: index * 0.1 }}
-                      className="flex items-center justify-between p-3 bg-background/50 rounded-lg border"
-                    >
-                      <span className="font-mono text-sm">{key}</span>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => copyToClipboard(key)}
-                        className="h-8 w-8"
-                      >
-                        <Copy className="h-4 w-4" />
-                      </Button>
-                    </motion.div>
-                  ))}
-                </CardContent>
-              </Card>
-            </motion.div>
-          )}
-        </motion.section>
+        {/* Quantum vs Classical Comparison */}
+        {finalKey && (
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="max-w-6xl mx-auto"
+          >
+            <ComparisonPanel newQuantumKey={finalKey} />
+          </motion.section>
+        )}
 
         {/* Entropy Visualization */}
         {entropyData.quantum.length > 0 && (
@@ -602,12 +590,17 @@ const QuantumEducation = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
         >
-          <h2 className="elegant-title text-2xl font-semibold text-center mb-4">
-            Understanding Quantum Mechanics
-          </h2>
-          <p className="text-muted-foreground text-center mb-12 max-w-2xl mx-auto">
-            Discover the fundamental principles that make quantum randomness possible
-          </p>
+          <div className="text-center mb-12">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <Brain className="w-8 h-8 text-primary" />
+              <h2 className="elegant-title text-2xl font-semibold">
+                Understanding Quantum Mechanics
+              </h2>
+            </div>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Discover the fundamental principles that make quantum randomness possible
+            </p>
+          </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {educationData.map((card, index) => (
