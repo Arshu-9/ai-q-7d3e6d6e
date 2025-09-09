@@ -470,15 +470,270 @@ const Index = () => {
             </div>
           </InteractiveStep>
 
-          {/* Step 3: 6-bit Chunking */}
+          {/* Step 3: Enhanced 6-bit Chunking Process */}
           <InteractiveStep
-            title="6-bit Chunking Process"
+            title="6-bit Quantum Segmentation"
             stepNumber={3}
             isVisible={currentStep >= 2 && !!binary}
             delay={0.8}
-            tooltip="Binary data is split into 6-bit chunks because 2^6 = 64, which is perfect for Base-62 encoding (62 characters: A-Z, a-z, 0-9)."
+            tooltip="Binary quantum data is precisely segmented into 6-bit chunks for optimal entropy distribution and character mapping."
           >
-            <AnimatedChunkDisplay binary={binary} />
+            <div className="space-y-8">
+              {/* Chunking Theater */}
+              <div className="bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 p-8 rounded-2xl border border-purple-300/30 relative overflow-hidden">
+                {/* Animated Background Grid */}
+                <div className="absolute inset-0 overflow-hidden">
+                  <motion.div
+                    className="absolute inset-0 bg-[linear-gradient(45deg,transparent_49%,rgba(168,85,247,0.1)_50%,rgba(168,85,247,0.1)_51%,transparent_52%)] bg-[length:20px_20px]"
+                    animate={{ 
+                      backgroundPosition: ['0px 0px', '20px 20px'],
+                    }}
+                    transition={{ 
+                      duration: 8, 
+                      repeat: Infinity, 
+                      ease: "linear" 
+                    }}
+                  />
+                  {/* Floating Particles */}
+                  {[...Array(15)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      className="absolute w-1.5 h-1.5 bg-purple-400/40 rounded-full"
+                      animate={{
+                        x: [0, Math.random() * 600],
+                        y: [0, Math.random() * 400],
+                        opacity: [0, 0.8, 0],
+                        scale: [0, 1, 0],
+                      }}
+                      transition={{
+                        duration: 4 + Math.random() * 3,
+                        repeat: Infinity,
+                        delay: Math.random() * 3,
+                      }}
+                    />
+                  ))}
+                </div>
+
+                <div className="relative z-10">
+                  <motion.div 
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    className="text-center mb-8"
+                  >
+                    <h4 className="text-2xl font-bold text-white mb-2">Quantum Bit Segmentation Lab</h4>
+                    <p className="text-purple-200">Precision chunking for maximum entropy extraction</p>
+                  </motion.div>
+
+                  {/* Binary Stream Visualization */}
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.8, delay: 0.3 }}
+                    className="mb-8 p-6 bg-black/40 rounded-xl border border-purple-400/30 backdrop-blur-sm"
+                  >
+                    <div className="text-sm text-purple-300 mb-3 text-center font-semibold tracking-wide">
+                      CONTINUOUS BINARY STREAM
+                    </div>
+                    <div className="font-mono text-xs text-white break-all leading-relaxed text-center bg-slate-800/50 p-4 rounded-lg border border-slate-600">
+                      {binary.split('').map((bit, index) => (
+                        <motion.span
+                          key={index}
+                          initial={{ opacity: 0, color: '#9CA3AF' }}
+                          animate={{ opacity: 1, color: bit === '1' ? '#10B981' : '#EF4444' }}
+                          transition={{ delay: index * 0.02, duration: 0.3 }}
+                          className="inline-block mx-0.5"
+                        >
+                          {bit}
+                        </motion.span>
+                      ))}
+                    </div>
+                  </motion.div>
+
+                  {/* 6-bit Chunks Display */}
+                  <div className="space-y-6">
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 1 }}
+                      className="text-center text-purple-200 mb-4"
+                    >
+                      <span className="text-lg font-semibold">Segmenting into 6-bit chunks...</span>
+                    </motion.div>
+                    
+                    <div className="grid gap-4 max-h-96 overflow-y-auto scrollbar-thin scrollbar-track-purple-900 scrollbar-thumb-purple-500">
+                      {(() => {
+                        const chunks = [];
+                        const colors = [
+                          'from-blue-500/80 to-blue-600/80 border-blue-400/50',
+                          'from-emerald-500/80 to-emerald-600/80 border-emerald-400/50',
+                          'from-purple-500/80 to-purple-600/80 border-purple-400/50',
+                          'from-orange-500/80 to-orange-600/80 border-orange-400/50',
+                          'from-pink-500/80 to-pink-600/80 border-pink-400/50',
+                          'from-yellow-500/80 to-yellow-600/80 border-yellow-400/50',
+                          'from-indigo-500/80 to-indigo-600/80 border-indigo-400/50',
+                          'from-teal-500/80 to-teal-600/80 border-teal-400/50',
+                        ];
+
+                        for (let i = 0; i < binary.length - 5; i += 6) {
+                          const chunk = binary.slice(i, i + 6);
+                          if (chunk.length === 6) {
+                            chunks.push(chunk);
+                          }
+                        }
+
+                        return chunks.slice(0, 8).map((chunk, index) => {
+                          const decimal = parseInt(chunk, 2);
+                          const colorClass = colors[index % colors.length];
+                          
+                          return (
+                            <motion.div
+                              key={index}
+                              initial={{ opacity: 0, x: -50, rotateY: -90 }}
+                              animate={{ opacity: 1, x: 0, rotateY: 0 }}
+                              transition={{ 
+                                delay: index * 0.2 + 1.5, 
+                                duration: 0.6,
+                                type: "spring",
+                                stiffness: 120
+                              }}
+                              className={`relative p-6 bg-gradient-to-r ${colorClass} rounded-xl border-2 backdrop-blur-sm hover:scale-105 transition-all duration-300 group`}
+                            >
+                              {/* Chunk Pulse Effect */}
+                              <motion.div
+                                animate={{ 
+                                  scale: [1, 1.05, 1],
+                                  opacity: [0.3, 0.6, 0.3]
+                                }}
+                                transition={{ 
+                                  duration: 2, 
+                                  repeat: Infinity,
+                                  delay: index * 0.3
+                                }}
+                                className="absolute inset-0 bg-white/10 rounded-xl"
+                              />
+                              
+                              <div className="relative z-10 flex items-center justify-between">
+                                {/* Chunk Number */}
+                                <div className="flex flex-col items-center">
+                                  <span className="text-xs text-white/80 font-semibold mb-2 tracking-wide">
+                                    CHUNK #{index + 1}
+                                  </span>
+                                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-white font-bold text-lg border-2 border-white/30">
+                                    {index + 1}
+                                  </div>
+                                </div>
+
+                                {/* Binary Bits */}
+                                <div className="flex flex-col items-center flex-1 mx-6">
+                                  <span className="text-xs text-white/80 font-semibold mb-3 tracking-wide">
+                                    6-BIT SEQUENCE
+                                  </span>
+                                  <div className="flex gap-1">
+                                    {chunk.split('').map((bit, bitIndex) => (
+                                      <motion.div
+                                        key={bitIndex}
+                                        initial={{ opacity: 0, scale: 0, rotateX: 180 }}
+                                        animate={{ opacity: 1, scale: 1, rotateX: 0 }}
+                                        transition={{ 
+                                          delay: index * 0.2 + bitIndex * 0.1 + 1.7,
+                                          duration: 0.4,
+                                          type: "spring"
+                                        }}
+                                        className={`relative w-10 h-10 rounded-lg border-2 flex items-center justify-center font-bold text-lg transition-all duration-300 ${
+                                          bit === '1' 
+                                            ? 'bg-white text-gray-800 border-white/80 shadow-lg shadow-white/30' 
+                                            : 'bg-black/40 text-white/70 border-white/30'
+                                        }`}
+                                      >
+                                        {bit}
+                                        {bit === '1' && (
+                                          <motion.div
+                                            animate={{ 
+                                              scale: [1, 1.3, 1], 
+                                              opacity: [0.4, 0.8, 0.4] 
+                                            }}
+                                            transition={{ 
+                                              duration: 1.5, 
+                                              repeat: Infinity, 
+                                              delay: Math.random() 
+                                            }}
+                                            className="absolute inset-0 bg-yellow-300/40 rounded-lg"
+                                          />
+                                        )}
+                                      </motion.div>
+                                    ))}
+                                  </div>
+                                </div>
+
+                                {/* Decimal Value */}
+                                <div className="flex flex-col items-center">
+                                  <span className="text-xs text-white/80 font-semibold mb-2 tracking-wide">
+                                    DECIMAL
+                                  </span>
+                                  <motion.div
+                                    initial={{ scale: 0 }}
+                                    animate={{ scale: 1 }}
+                                    transition={{ 
+                                      delay: index * 0.2 + 2,
+                                      type: "spring",
+                                      stiffness: 200
+                                    }}
+                                    className="w-16 h-16 bg-white/90 rounded-xl flex items-center justify-center text-gray-800 font-bold text-xl border-2 border-white/50 shadow-lg shadow-white/20"
+                                  >
+                                    {decimal}
+                                  </motion.div>
+                                  <motion.div
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ delay: index * 0.2 + 2.2 }}
+                                    className="text-xs text-white/70 mt-1"
+                                  >
+                                    /{Math.pow(2, 6) - 1}
+                                  </motion.div>
+                                </div>
+                              </div>
+
+                              {/* Hover Glow Effect */}
+                              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-white/0 via-white/5 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                            </motion.div>
+                          );
+                        });
+                      })()}
+                    </div>
+
+                    {/* Statistics */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 3 }}
+                      className="mt-8 p-6 bg-white/10 rounded-xl border border-white/20 backdrop-blur-sm"
+                    >
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                        <div className="text-white">
+                          <div className="text-2xl font-bold text-purple-300">
+                            {Math.floor(binary.length / 6)}
+                          </div>
+                          <div className="text-sm text-white/80">Total Chunks</div>
+                        </div>
+                        <div className="text-white">
+                          <div className="text-2xl font-bold text-purple-300">
+                            6-bit
+                          </div>
+                          <div className="text-sm text-white/80">Chunk Size</div>
+                        </div>
+                        <div className="text-white">
+                          <div className="text-2xl font-bold text-purple-300">
+                            64
+                          </div>
+                          <div className="text-sm text-white/80">Possible Values</div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </InteractiveStep>
 
           {/* Step 4: Character Mapping */}
