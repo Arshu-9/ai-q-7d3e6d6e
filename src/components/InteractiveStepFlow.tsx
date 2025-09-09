@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ReactNode, useEffect, useRef } from "react";
+import { ReactNode } from "react";
 import { Info } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
@@ -20,26 +20,12 @@ export const InteractiveStep = ({
   tooltip,
   stepNumber 
 }: StepProps) => {
-  const stepRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (isVisible && stepRef.current) {
-      const timer = setTimeout(() => {
-        stepRef.current?.scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'center' 
-        });
-      }, delay * 1000 + 500);
-      
-      return () => clearTimeout(timer);
-    }
-  }, [isVisible, delay]);
+  // Removed auto-scroll functionality per user request
 
   if (!isVisible) return null;
 
   return (
     <motion.div
-      ref={stepRef}
       initial={{ opacity: 0, y: 30, scale: 0.95 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.6, delay, ease: "easeOut" }}

@@ -7,6 +7,7 @@ import { AnimatedChunkDisplay } from "@/components/AnimatedChunkDisplay";
 import { InteractiveMappingDisplay } from "@/components/InteractiveMappingDisplay";
 import { PremiumFinalKeyDisplay } from "@/components/PremiumFinalKeyDisplay";
 import { ComparisonPanel } from "@/components/ComparisonPanel";
+import { EntropyVisualization } from "@/components/EntropyVisualization";
 
 const Index = () => {
   const [qrngData, setQrngData] = useState<string>("");
@@ -252,6 +253,17 @@ const Index = () => {
               transition={{ duration: 0.8, delay: 2.5 }}
             >
               <ComparisonPanel quantumKey={finalKey} prngKey={prngKey} />
+            </motion.div>
+          )}
+
+          {/* Entropy Visualization */}
+          {qrngData && (
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 3 }}
+            >
+              <EntropyVisualization qrngData={qrngData} binary={binary} />
             </motion.div>
           )}
         </div>
