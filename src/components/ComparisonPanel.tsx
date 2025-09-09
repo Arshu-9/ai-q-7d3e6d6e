@@ -168,7 +168,7 @@ export const ComparisonPanel = ({ quantumKey, prngKey }: ComparisonProps) => {
             </div>
           </motion.div>
         ))}
-      </div>
+      </motion.div>
 
       <div className="text-sm text-muted-foreground text-center bg-blue-50 p-4 rounded-lg border border-blue-200">
         <strong className="text-blue-700">Why Quantum Keys Matter:</strong> Quantum keys are generated from quantum mechanical processes, making them truly random and impossible to predict. This makes them ideal for ultra-secure applications where security is paramount.
