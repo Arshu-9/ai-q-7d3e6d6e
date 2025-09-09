@@ -1,18 +1,18 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Loader2, Zap } from "lucide-react";
-import { ConversionStep } from "@/components/ConversionStep";
-import { BinaryDisplay } from "@/components/BinaryDisplay";
-import { ChunkDisplay } from "@/components/ChunkDisplay";
-import { MappingDisplay } from "@/components/MappingDisplay";
-import { FinalKeyDisplay } from "@/components/FinalKeyDisplay";
-import { QuantumHeader } from "@/components/QuantumHeader";
-import { EntropyVisualization } from "@/components/EntropyVisualization";
+import { Loader2, Zap, Sparkles } from "lucide-react";
+import { InteractiveStep } from "@/components/InteractiveStepFlow";
+import { EnhancedBinaryDisplay } from "@/components/EnhancedBinaryDisplay";
+import { AnimatedChunkDisplay } from "@/components/AnimatedChunkDisplay";
+import { InteractiveMappingDisplay } from "@/components/InteractiveMappingDisplay";
+import { PremiumFinalKeyDisplay } from "@/components/PremiumFinalKeyDisplay";
+import { ComparisonPanel } from "@/components/ComparisonPanel";
 
 const Index = () => {
   const [qrngData, setQrngData] = useState<string>("");
   const [binary, setBinary] = useState<string>("");
   const [finalKey, setFinalKey] = useState<string>("");
+  const [prngKey, setPrngKey] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -22,6 +22,7 @@ const Index = () => {
     setQrngData("");
     setBinary("");
     setFinalKey("");
+    setPrngKey("");
     
     try {
       // Try ANU QRNG API first
@@ -100,106 +101,159 @@ const Index = () => {
     }
     
     setFinalKey(key.toUpperCase());
+    
+    // Generate PRNG key for comparison
+    generatePRNGKey();
+    
     setCurrentStep(4);
+  };
+
+  const generatePRNGKey = () => {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let key = "";
+    
+    // Use Math.random() - standard PRNG
+    for (let i = 0; i < 7; i++) {
+      const randomIndex = Math.floor(Math.random() * chars.length);
+      key += chars[randomIndex];
+    }
+    
+    setPrngKey(key.toUpperCase());
   };
 
   return (
     <div className="min-h-screen">
       <div className="container mx-auto px-6 py-8">
         {/* Header */}
-        <QuantumHeader />
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-12"
+        >
+          <h1 className="elegant-title mb-4">
+            Heart of Black <span className="text-royal-blue">-Q</span>
+          </h1>
+          <div className="flex items-center justify-center space-x-2 text-muted-foreground">
+            <Sparkles className="w-5 h-5 text-royal-blue" />
+            <p className="text-lg">Interactive Quantum Key Conversion Demo</p>
+            <Sparkles className="w-5 h-5 text-royal-blue" />
+          </div>
+        </motion.div>
 
         {/* Generate Button */}
         <motion.div 
-          className="text-center mb-12"
+          className="text-center mb-16"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
         >
           <button
             onClick={generateQRNG}
             disabled={isLoading}
-            className="fintech-button text-lg px-8 py-4 disabled:opacity-40 disabled:cursor-not-allowed"
+            className="fintech-button text-xl px-10 py-5 disabled:opacity-40 disabled:cursor-not-allowed shadow-xl hover:shadow-2xl transition-all duration-300"
           >
             {isLoading ? (
               <div className="flex items-center space-x-3">
-                <Loader2 className="w-5 h-5 animate-spin" />
+                <Loader2 className="w-6 h-6 animate-spin" />
                 <span>Generating Quantum Data...</span>
               </div>
             ) : (
               <div className="flex items-center space-x-3">
-                <Zap className="w-5 h-5" />
-                <span>Generate Quantum Hex</span>
+                <Zap className="w-6 h-6" />
+                <span>Generate Quantum Key</span>
               </div>
             )}
           </button>
+          
+          {!isLoading && (
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+              className="text-sm text-muted-foreground mt-4"
+            >
+              Click to fetch quantum random data from ANU QRNG and see the conversion process
+            </motion.p>
+          )}
         </motion.div>
 
-        {/* Conversion Steps */}
-        <div className="space-y-6 max-w-4xl mx-auto">
-          {/* Step 1: Quantum Hex */}
-          <ConversionStep
-            title="1. Quantum Hex Data"
+        {/* Interactive Step-by-Step Flow */}
+        <div className="space-y-8 max-w-5xl mx-auto">
+          {/* Step 1: Quantum Hex Data */}
+          <InteractiveStep
+            title="Quantum Hex Data Generation"
+            stepNumber={1}
             isVisible={!!qrngData}
             delay={0.2}
+            tooltip="True quantum random numbers generated from quantum vacuum fluctuations at ANU. These are fundamentally unpredictable, unlike pseudorandom numbers."
           >
-            <div className="code-display text-center text-lg font-mono tracking-wider">
-              {qrngData}
+            <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-xl border-2 border-green-200">
+              <div className="code-display text-center text-2xl font-mono tracking-wider bg-white border-green-300 mb-4">
+                {qrngData}
+              </div>
+              <div className="text-sm text-green-700 text-center bg-green-100 p-3 rounded-lg border border-green-300">
+                <strong>Source:</strong> 128-bit quantum random hex from Australian National University (ANU) Quantum RNG
+              </div>
             </div>
-            <div className="text-sm text-muted-foreground text-center">
-              128-bit quantum random hex from ANU Quantum RNG
-            </div>
-          </ConversionStep>
+          </InteractiveStep>
 
           {/* Step 2: Binary Conversion */}
-          <ConversionStep
-            title="2. Binary Conversion"
+          <InteractiveStep
+            title="Hex to Binary Conversion"
+            stepNumber={2}
             isVisible={currentStep >= 1 && !!binary}
-            delay={0.4}
+            delay={0.5}
+            tooltip="Each hexadecimal character is converted to its 4-bit binary representation. This creates a long string of 1s and 0s that we can work with mathematically."
           >
-            <BinaryDisplay binary={binary} />
-            <div className="text-sm text-muted-foreground">
-              Each hex character converted to 8-bit binary representation
-            </div>
-          </ConversionStep>
+            <EnhancedBinaryDisplay binary={binary} />
+          </InteractiveStep>
 
           {/* Step 3: 6-bit Chunking */}
-          <ConversionStep
-            title="3. 6-bit Chunking"
+          <InteractiveStep
+            title="6-bit Chunking Process"
+            stepNumber={3}
             isVisible={currentStep >= 2 && !!binary}
-            delay={0.6}
+            delay={0.8}
+            tooltip="Binary data is split into 6-bit chunks because 2^6 = 64, which is perfect for Base-62 encoding (62 characters: A-Z, a-z, 0-9)."
           >
-            <ChunkDisplay binary={binary} />
-            <div className="text-sm text-muted-foreground">
-              Binary data split into 6-bit chunks for Base-62 encoding
-            </div>
-          </ConversionStep>
+            <AnimatedChunkDisplay binary={binary} />
+          </InteractiveStep>
 
           {/* Step 4: Character Mapping */}
-          <ConversionStep
-            title="4. Base-62 Character Mapping"
+          <InteractiveStep
+            title="Base-62 Character Mapping"
+            stepNumber={4}
             isVisible={currentStep >= 3 && !!binary}
-            delay={0.8}
+            delay={1.2}
+            tooltip="Each 6-bit chunk is converted to a decimal number (0-63), then mapped to our Base-62 character set. The modulo operation ensures we stay within 0-61."
           >
-            <MappingDisplay binary={binary} />
-            <div className="text-sm text-muted-foreground">
-              Each 6-bit chunk converted to decimal, then mapped to Base-62 character set
-            </div>
-          </ConversionStep>
+            <InteractiveMappingDisplay binary={binary} />
+          </InteractiveStep>
 
-          {/* Step 5: Final Key */}
+          {/* Step 5: Final Quantum Key */}
           {currentStep >= 4 && finalKey && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1 }}
+            <InteractiveStep
+              title="Your Quantum Key is Ready!"
+              stepNumber={5}
+              isVisible={true}
+              delay={1.8}
+              tooltip="This is your final quantum-generated key. It's truly random and suitable for high-security applications where unpredictability is crucial."
             >
-              <FinalKeyDisplay finalKey={finalKey} />
-            </motion.div>
+              <PremiumFinalKeyDisplay finalKey={finalKey} />
+            </InteractiveStep>
           )}
 
-          {/* Entropy Visualization */}
-          <EntropyVisualization qrngData={qrngData} binary={binary} />
+          {/* Security Comparison Panel */}
+          {currentStep >= 4 && finalKey && prngKey && (
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 2.5 }}
+            >
+              <ComparisonPanel quantumKey={finalKey} prngKey={prngKey} />
+            </motion.div>
+          )}
         </div>
       </div>
     </div>
