@@ -126,7 +126,7 @@ All colors MUST be HSL.
 
   .fintech-button {
     @apply bg-primary text-primary-foreground font-medium py-3 px-6 rounded-lg;
-    @apply transform transition-all duration-200 hover:bg-royal-blue-dark active:scale-98;
+    @apply transform transition-all duration-200 hover:bg-royal-blue-dark active:scale-95;
     background: var(--gradient-button);
     box-shadow: var(--shadow-soft);
   }
