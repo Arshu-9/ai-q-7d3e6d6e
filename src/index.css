@@ -132,7 +132,7 @@ All colors MUST be HSL.
   }
 
   .fintech-button:hover {
-    background: linear-gradient(135deg, hsl(var(--royal-blue-dark)), hsl(225 73% 40%));
+    @apply bg-royal-blue-dark;
     box-shadow: var(--shadow-medium);
   }
 

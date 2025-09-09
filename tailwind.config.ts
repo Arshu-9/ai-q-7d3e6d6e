@@ -47,14 +47,16 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        quantum: {
-          bg: "hsl(var(--quantum-bg))",
-          surface: "hsl(var(--quantum-surface))",
-          glass: "hsl(var(--quantum-glass))",
-          neon: "hsl(var(--quantum-neon))",
-          purple: "hsl(var(--quantum-purple))",
-          glow: "hsl(var(--quantum-glow))",
+        "royal-blue": {
+          DEFAULT: "hsl(var(--royal-blue))",
+          dark: "hsl(var(--royal-blue-dark))",
         },
+        "silver": {
+          DEFAULT: "hsl(var(--silver))",
+          light: "hsl(var(--silver-light))",
+          dark: "hsl(var(--silver-dark))",
+        },
+        "off-white": "hsl(var(--off-white))",
       },
       borderRadius: {
         lg: "var(--radius)",
