@@ -32,37 +32,43 @@ const Index = () => {
     setPrngKey("");
     
     try {
-      // Try ANU QRNG API first
+      // ONLY use real-time quantum data from ANU QRNG
       const response = await fetch(
-        "https://qrng.anu.edu.au/API/jsonI.php?length=16&type=hex16"
+        "https://qrng.anu.edu.au/API/jsonI.php?length=16&type=hex16",
+        { 
+          method: 'GET',
+          signal: AbortSignal.timeout(10000) // 10 second timeout
+        }
       );
       
-      if (response.ok) {
-        const data = await response.json();
-        const hexData = data.data.join("");
-        setQrngData(hexData);
-        
-        // Convert to binary and process
-        setTimeout(() => {
-          convertToBinary(hexData);
-        }, 500);
-      } else {
-        throw new Error("ANU API failed");
+      if (!response.ok) {
+        throw new Error(`ANU QRNG API returned status ${response.status}`);
       }
-    } catch (error) {
-      // Fallback to crypto.getRandomValues
-      console.warn("ANU QRNG API failed, using crypto fallback:", error);
-      const array = new Uint8Array(16);
-      crypto.getRandomValues(array);
-      const hexData = Array.from(array)
-        .map(b => b.toString(16).padStart(2, '0'))
-        .join('');
+      
+      const data = await response.json();
+      
+      if (!data.success || !data.data || data.data.length === 0) {
+        throw new Error("Invalid response from ANU QRNG API");
+      }
+      
+      const hexData = data.data.join("");
       setQrngData(hexData);
       
       // Convert to binary and process
       setTimeout(() => {
         convertToBinary(hexData);
       }, 500);
+      
+    } catch (error) {
+      console.error("Failed to fetch real-time quantum data:", error);
+      
+      // Show error to user - NO FALLBACK
+      alert(
+        "⚠️ Unable to fetch real-time quantum data from ANU QRNG.\n\n" +
+        "This system uses ONLY genuine quantum random numbers generated from vacuum fluctuations.\n\n" +
+        "Please check your internet connection and try again.\n\n" +
+        `Error: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
     } finally {
       setIsLoading(false);
     }
@@ -189,7 +195,7 @@ const Index = () => {
               transition={{ delay: 0.6 }}
               className="text-sm text-muted-foreground mt-4"
             >
-              Click to fetch quantum random data from ANU QRNG and see the conversion process
+              <span className="font-semibold text-primary">100% Real-Time Quantum Data</span> - Fetched live from Australian National University QRNG
             </motion.p>
           )}
         </motion.div>
@@ -209,12 +215,24 @@ const Index = () => {
             delay={0.2}
             tooltip="True quantum random numbers generated from quantum vacuum fluctuations at ANU. These are fundamentally unpredictable, unlike pseudorandom numbers."
           >
-            <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-xl border-2 border-green-200">
+            <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-xl border-2 border-green-200 relative overflow-hidden">
+              {/* Live indicator */}
+              <div className="absolute top-4 right-4 flex items-center gap-2">
+                <motion.div
+                  className="w-3 h-3 bg-red-500 rounded-full"
+                  animate={{ opacity: [1, 0.3, 1] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                />
+                <span className="text-xs font-bold text-red-600">LIVE QUANTUM DATA</span>
+              </div>
+              
               <div className="code-display text-center text-2xl font-mono tracking-wider bg-white border-green-300 mb-4">
                 {qrngData}
               </div>
               <div className="text-sm text-green-700 text-center bg-green-100 p-3 rounded-lg border border-green-300">
-                <strong>Source:</strong> 128-bit quantum random hex from Australian National University (ANU) Quantum RNG
+                <strong>Source:</strong> Real-time quantum vacuum fluctuations from Australian National University (ANU) QRNG
+                <br />
+                <span className="text-xs mt-1 block">Generated from photon behavior in a laboratory vacuum at {new Date().toLocaleTimeString()}</span>
               </div>
             </div>
           </InteractiveStep>
