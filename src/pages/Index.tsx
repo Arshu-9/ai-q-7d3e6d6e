@@ -12,6 +12,7 @@ import { PremiumFinalKeyDisplay } from "@/components/PremiumFinalKeyDisplay";
 import { ComparisonPanel } from "@/components/ComparisonPanel";
 import { EntropyVisualization } from "@/components/EntropyVisualization";
 import { InteractiveStep } from "@/components/InteractiveStep";
+import MilitaryGradeSection from "@/components/MilitaryGradeSection";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -192,6 +193,11 @@ const Index = () => {
             </motion.p>
           )}
         </motion.div>
+
+        {/* Military Grade Section */}
+        <div className="mb-20">
+          <MilitaryGradeSection />
+        </div>
 
         {/* Interactive Step-by-Step Flow */}
         <div className="space-y-8 max-w-5xl mx-auto">
