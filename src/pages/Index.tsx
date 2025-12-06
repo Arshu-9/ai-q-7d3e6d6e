@@ -13,6 +13,14 @@ import { ComparisonPanel } from "@/components/ComparisonPanel";
 import { EntropyVisualization } from "@/components/EntropyVisualization";
 import { InteractiveStep } from "@/components/InteractiveStep";
 
+// Christmas light colors for the typing indicator effect
+const christmasColors = [
+  "bg-christmas-red",
+  "bg-electric-blue",
+  "bg-christmas-green",
+  "bg-christmas-yellow",
+];
+
 const Index = () => {
   const navigate = useNavigate();
   const [qrngData, setQrngData] = useState<string>("");
@@ -128,9 +136,35 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen">
-      <div className="container mx-auto px-6 py-8">
-        {/* Header */}
+    <div className="min-h-screen relative">
+      {/* Fog Overlay at Bottom */}
+      <div className="fog-overlay" />
+      
+      {/* Floating Particles - Upside Down Effect */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        {[...Array(30)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 bg-primary/30 rounded-full"
+            initial={{
+              x: Math.random() * window.innerWidth,
+              y: Math.random() * window.innerHeight,
+            }}
+            animate={{
+              y: [null, -20, 20],
+              opacity: [0.2, 0.6, 0.2],
+            }}
+            transition={{
+              duration: 4 + Math.random() * 4,
+              repeat: Infinity,
+              delay: Math.random() * 2,
+            }}
+          />
+        ))}
+      </div>
+
+      <div className="container mx-auto px-6 py-8 relative z-10">
+        {/* Header with Stranger Things Styling */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -138,25 +172,38 @@ const Index = () => {
           className="text-center mb-12"
         >
           <h1 className="elegant-title mb-4">
-            Heart of Black <span className="text-royal-blue">-Q</span>
+            Heart of Black{" "}
+            <span className="text-accent">-Q</span>
           </h1>
-          <div className="flex items-center justify-center space-x-2 text-muted-foreground mb-6">
-            <Sparkles className="w-5 h-5 text-royal-blue" />
-            <p className="text-lg">Interactive Quantum Key Conversion Demo</p>
-            <Sparkles className="w-5 h-5 text-royal-blue" />
+          <div className="flex items-center justify-center space-x-3 text-muted-foreground mb-6">
+            <motion.div
+              animate={{ opacity: [0.5, 1, 0.5] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              <Sparkles className="w-5 h-5 text-primary" />
+            </motion.div>
+            <p className="text-lg subtitle-glow tracking-wide">
+              Enter the Upside Down of Quantum Randomness
+            </p>
+            <motion.div
+              animate={{ opacity: [0.5, 1, 0.5] }}
+              transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
+            >
+              <Sparkles className="w-5 h-5 text-secondary" />
+            </motion.div>
           </div>
           
           <Button
             onClick={() => navigate("/quantum-education")}
             variant="outline"
-            className="gap-2"
+            className="gap-2 border-border hover:border-primary hover:bg-primary/10 transition-all duration-300 hover:shadow-neon-red"
           >
             <GraduationCap className="w-4 h-4" />
             Learn About Quantum Physics
           </Button>
         </motion.div>
 
-        {/* Generate Button */}
+        {/* Generate Button - Walkie Talkie Style */}
         <motion.div 
           className="text-center mb-16"
           initial={{ opacity: 0, scale: 0.9 }}
@@ -166,17 +213,38 @@ const Index = () => {
           <button
             onClick={generateQRNG}
             disabled={isLoading}
-            className="fintech-button text-xl px-10 py-5 disabled:opacity-40 disabled:cursor-not-allowed shadow-xl hover:shadow-2xl transition-all duration-300"
+            className="fintech-button text-xl px-10 py-5 disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {isLoading ? (
               <div className="flex items-center space-x-3">
-                <Loader2 className="w-6 h-6 animate-spin" />
-                <span>Generating Quantum Data...</span>
+                {/* Sound Wave Animation */}
+                <div className="flex items-center gap-1 h-6">
+                  {[...Array(5)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      className="w-1 bg-primary-foreground rounded-full"
+                      animate={{
+                        height: [12, 24, 12],
+                      }}
+                      transition={{
+                        duration: 0.5,
+                        repeat: Infinity,
+                        delay: i * 0.1,
+                      }}
+                    />
+                  ))}
+                </div>
+                <span>Transmitting from the Upside Down...</span>
               </div>
             ) : (
               <div className="flex items-center space-x-3">
-                <Zap className="w-6 h-6" />
-                <span>Generate Quantum Key</span>
+                <motion.div
+                  animate={{ rotate: [0, 360] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                >
+                  <Zap className="w-6 h-6" />
+                </motion.div>
+                <span>Open the Gate</span>
               </div>
             )}
           </button>
@@ -188,8 +256,36 @@ const Index = () => {
               transition={{ delay: 0.6 }}
               className="text-sm text-muted-foreground mt-4"
             >
-              Click to fetch quantum random data from ANU QRNG and see the conversion process
+              Click to receive quantum transmissions from the other side
             </motion.p>
+          )}
+          
+          {/* Christmas Light Typing Indicator when loading */}
+          {isLoading && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="flex justify-center gap-2 mt-6"
+            >
+              {christmasColors.map((color, i) => (
+                <motion.div
+                  key={i}
+                  className={`w-3 h-3 rounded-full ${color}`}
+                  animate={{
+                    opacity: [0.3, 1, 0.3],
+                    scale: [0.8, 1.2, 0.8],
+                  }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    delay: i * 0.2,
+                  }}
+                  style={{
+                    boxShadow: `0 0 10px currentColor`,
+                  }}
+                />
+              ))}
+            </motion.div>
           )}
         </motion.div>
 
@@ -203,12 +299,19 @@ const Index = () => {
             delay={0.2}
             tooltip="True quantum random numbers generated from quantum vacuum fluctuations at ANU. These are fundamentally unpredictable, unlike pseudorandom numbers."
           >
-            <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-xl border-2 border-green-200">
-              <div className="code-display text-center text-2xl font-mono tracking-wider bg-white border-green-300 mb-4">
-                {qrngData}
+            <div className="premium-panel p-6">
+              <div className="code-display text-center text-2xl font-mono tracking-wider mb-4 border-primary/30">
+                <motion.span
+                  className="text-primary"
+                  animate={{ opacity: [0.7, 1, 0.7] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  {qrngData}
+                </motion.span>
               </div>
-              <div className="text-sm text-green-700 text-center bg-green-100 p-3 rounded-lg border border-green-300">
-                <strong>Source:</strong> 128-bit quantum random hex from Australian National University (ANU) Quantum RNG
+              <div className="text-sm text-center bg-muted/50 p-3 rounded-lg border border-border">
+                <span className="text-primary font-semibold">⚡ QUANTUM SOURCE:</span>
+                <span className="text-muted-foreground ml-2">128-bit quantum random hex from the Upside Down (ANU QRNG)</span>
               </div>
             </div>
           </InteractiveStep>
@@ -223,13 +326,13 @@ const Index = () => {
           >
             <div className="space-y-8">
               {/* Conversion Theater */}
-              <div className="bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900 p-8 rounded-2xl border border-blue-300/30 relative overflow-hidden">
+              <div className="premium-panel p-8 relative overflow-hidden">
                 {/* Animated Background Particles */}
                 <div className="absolute inset-0 overflow-hidden">
                   {[...Array(20)].map((_, i) => (
                     <motion.div
                       key={i}
-                      className="absolute w-1 h-1 bg-blue-400/30 rounded-full"
+                      className="absolute w-1 h-1 bg-primary/30 rounded-full"
                       animate={{
                         x: [0, Math.random() * 400],
                         y: [0, Math.random() * 300],
@@ -251,12 +354,12 @@ const Index = () => {
                     transition={{ duration: 0.6 }}
                     className="text-center mb-8"
                   >
-                    <h4 className="text-2xl font-bold text-white mb-2">Quantum Conversion Theater</h4>
-                    <p className="text-blue-200">Witness the hex-to-binary metamorphosis</p>
+                    <h4 className="text-2xl font-bold text-foreground mb-2">Quantum Conversion Portal</h4>
+                    <p className="text-muted-foreground">Witness the hex-to-binary metamorphosis</p>
                   </motion.div>
                   
                   {/* Conversion Grid */}
-                  <div className="grid gap-6 max-h-80 overflow-y-auto scrollbar-thin scrollbar-track-slate-700 scrollbar-thumb-blue-500">
+                  <div className="grid gap-6 max-h-80 overflow-y-auto">
                     {qrngData && qrngData.split('').map((hexChar, index) => {
                       const binaryValue = parseInt(hexChar, 16).toString(2).padStart(4, '0');
                       const decimal = parseInt(hexChar, 16);
@@ -272,7 +375,7 @@ const Index = () => {
                             type: "spring",
                             stiffness: 100 
                           }}
-                          className="flex items-center justify-between p-6 bg-gradient-to-r from-slate-800/80 to-slate-700/80 rounded-xl border border-blue-400/30 backdrop-blur-sm hover:scale-105 transition-transform duration-300"
+                          className="flex items-center justify-between p-6 bg-muted/30 rounded-xl border border-border backdrop-blur-sm hover:border-primary/50 transition-all duration-300"
                         >
                           {/* Hex Input */}
                           <div className="flex flex-col items-center">
@@ -280,7 +383,7 @@ const Index = () => {
                               initial={{ opacity: 0 }}
                               animate={{ opacity: 1 }}
                               transition={{ delay: index * 0.15 + 0.2 }}
-                              className="text-xs text-blue-300 font-semibold mb-2 tracking-wide"
+                              className="text-xs text-accent font-semibold mb-2 tracking-wide"
                             >
                               HEX INPUT
                             </motion.span>
@@ -288,7 +391,7 @@ const Index = () => {
                               initial={{ scale: 0 }}
                               animate={{ scale: 1 }}
                               transition={{ delay: index * 0.15 + 0.3, type: "spring" }}
-                              className="text-3xl font-bold text-white bg-gradient-to-br from-blue-500 to-purple-600 px-4 py-3 rounded-lg border-2 border-blue-400/50 shadow-lg shadow-blue-500/25"
+                              className="text-3xl font-bold text-primary-foreground bg-gradient-to-br from-primary to-secondary px-4 py-3 rounded-lg border border-primary/50 shadow-neon-red"
                             >
                               {hexChar.toUpperCase()}
                             </motion.div>
@@ -296,7 +399,7 @@ const Index = () => {
                               initial={{ opacity: 0 }}
                               animate={{ opacity: 1 }}
                               transition={{ delay: index * 0.15 + 0.5 }}
-                              className="text-xs text-blue-200 mt-1"
+                              className="text-xs text-muted-foreground mt-1"
                             >
                               Dec: {decimal}
                             </motion.div>
@@ -319,11 +422,11 @@ const Index = () => {
                                 repeat: Infinity,
                                 delay: index * 0.15 + 0.6
                               }}
-                              className="text-2xl text-yellow-400"
+                              className="text-2xl text-primary"
                             >
                               ⚡
                             </motion.div>
-                            <span className="text-xs text-yellow-300 mt-1">CONVERT</span>
+                            <span className="text-xs text-primary mt-1">CONVERT</span>
                           </motion.div>
                           
                           {/* Binary Output */}
@@ -332,7 +435,7 @@ const Index = () => {
                               initial={{ opacity: 0 }}
                               animate={{ opacity: 1 }}
                               transition={{ delay: index * 0.15 + 0.6 }}
-                              className="text-xs text-green-300 font-semibold mb-2 tracking-wide"
+                              className="text-xs text-accent font-semibold mb-2 tracking-wide"
                             >
                               4-BIT BINARY
                             </motion.span>
@@ -349,8 +452,8 @@ const Index = () => {
                                   }}
                                   className={`relative text-xl font-bold px-3 py-2 rounded-lg border-2 transition-all duration-300 ${
                                     bit === '1' 
-                                      ? 'bg-gradient-to-br from-green-400 to-emerald-500 text-white border-green-300 shadow-lg shadow-green-500/30' 
-                                      : 'bg-gradient-to-br from-gray-600 to-gray-700 text-gray-300 border-gray-500 shadow-lg shadow-gray-500/20'
+                                      ? 'bg-gradient-to-br from-primary to-neon-red-glow text-primary-foreground border-primary/50 shadow-neon-red' 
+                                      : 'bg-muted text-muted-foreground border-border'
                                   }`}
                                 >
                                   {bit}
@@ -358,7 +461,7 @@ const Index = () => {
                                     <motion.div
                                       animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
                                       transition={{ duration: 2, repeat: Infinity, delay: Math.random() }}
-                                      className="absolute inset-0 bg-green-400/30 rounded-lg"
+                                      className="absolute inset-0 bg-primary/30 rounded-lg"
                                     />
                                   )}
                                 </motion.div>
@@ -368,7 +471,7 @@ const Index = () => {
                               initial={{ opacity: 0 }}
                               animate={{ opacity: 1 }}
                               transition={{ delay: index * 0.15 + 1 }}
-                              className="text-xs text-green-200 mt-1"
+                              className="text-xs text-muted-foreground mt-1"
                             >
                               = {parseInt(binaryValue, 2)}
                             </motion.div>
@@ -385,14 +488,14 @@ const Index = () => {
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: qrngData ? qrngData.length * 0.15 + 2 : 2, duration: 0.8 }}
-                className="bg-gradient-to-br from-emerald-50 to-teal-50 p-8 rounded-2xl border-2 border-emerald-300 relative overflow-hidden"
+                className="premium-panel p-8 relative overflow-hidden"
               >
                 {/* Success Particles */}
                 <div className="absolute inset-0">
                   {[...Array(10)].map((_, i) => (
                     <motion.div
                       key={i}
-                      className="absolute w-2 h-2 bg-emerald-400 rounded-full"
+                      className="absolute w-2 h-2 bg-primary rounded-full"
                       animate={{
                         y: [100, -10],
                         x: [0, Math.random() * 50 - 25],
@@ -413,12 +516,12 @@ const Index = () => {
                     initial={{ scale: 0.8 }}
                     animate={{ scale: 1 }}
                     transition={{ delay: qrngData ? qrngData.length * 0.15 + 2.2 : 2.2 }}
-                    className="text-2xl font-bold text-emerald-800 mb-6 text-center"
+                    className="text-2xl font-bold text-primary mb-6 text-center"
                   >
                     🎯 Binary Transformation Complete!
                   </motion.h4>
                   
-                  <div className="bg-white/80 backdrop-blur-sm p-6 rounded-xl border border-emerald-200">
+                  <div className="bg-muted/50 backdrop-blur-sm p-6 rounded-xl border border-border">
                     <div className="font-mono text-sm break-all leading-relaxed">
                       {binary && binary.split('').map((bit, index) => {
                         const isGroupStart = index % 4 === 0;
@@ -434,7 +537,7 @@ const Index = () => {
                               duration: 0.2 
                             }}
                             className={`inline-block ${
-                              bit === '1' ? 'text-emerald-600 font-bold' : 'text-gray-600'
+                              bit === '1' ? 'text-primary font-bold' : 'text-muted-foreground'
                             } ${isGroupStart && index > 0 ? 'ml-3' : ''} ${
                               index % 4 === 3 ? 'mr-1' : ''
                             }`}
@@ -450,9 +553,9 @@ const Index = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: qrngData ? qrngData.length * 0.15 + 4 : 4 }}
-                    className="text-center mt-6 p-4 bg-emerald-100 rounded-lg border border-emerald-300"
+                    className="text-center mt-6 p-4 bg-primary/10 rounded-lg border border-primary/30"
                   >
-                    <div className="flex items-center justify-center gap-4 text-emerald-700">
+                    <div className="flex items-center justify-center gap-4 text-primary">
                       <div className="flex items-center gap-2">
                         <span className="text-lg">📊</span>
                         <span className="font-semibold">Total Bits:</span>
@@ -534,11 +637,11 @@ const Index = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 1 }}
-        className="fixed bottom-0 left-0 right-0 bg-background/80 backdrop-blur-sm border-t border-border/50"
+        className="fixed bottom-0 left-0 right-0 bg-background/80 backdrop-blur-sm border-t border-primary/20"
       >
         <div className="container mx-auto px-6 py-4">
           <p className="text-sm text-muted-foreground text-center font-medium">
-            © 2025 Md Arshad. All rights reserved.
+            © 2025 Md Arshad. All rights reserved. | <span className="text-primary">Hawkins Laboratory</span>
           </p>
         </div>
       </motion.footer>
