@@ -2,106 +2,113 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* ============================================
+   🔥 STRANGER THINGS THEME
+   Dark, atmospheric, cinematic UI
+   ============================================ */
 
 @layer base {
   :root {
-/* Premium Silver + Royal Blue Theme */
-    --background: 0 0% 98%;
-    --foreground: 215 25% 27%;
+    /* Stranger Things Dark Theme - DEFAULT AND MANDATORY */
+    --background: 220 50% 3%;
+    --foreground: 0 0% 95%;
 
-    --card: 0 0% 95%;
-    --card-foreground: 215 25% 27%;
+    --card: 220 45% 6%;
+    --card-foreground: 0 0% 95%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 27%;
+    --popover: 220 50% 5%;
+    --popover-foreground: 0 0% 95%;
 
-    /* Royal Blue Primary */
-    --primary: 225 73% 57%;
+    /* Neon Red Primary - Demogorgon Glow */
+    --primary: 0 100% 50%;
     --primary-foreground: 0 0% 100%;
 
-    /* Silver Secondary */
-    --secondary: 0 0% 75%;
-    --secondary-foreground: 215 25% 27%;
+    /* Electric Purple Secondary */
+    --secondary: 280 100% 60%;
+    --secondary-foreground: 0 0% 100%;
 
-    /* Professional Muted */
-    --muted: 0 0% 92%;
-    --muted-foreground: 215 15% 46%;
+    /* Muted - Dark Fog */
+    --muted: 220 30% 12%;
+    --muted-foreground: 220 10% 60%;
 
-    /* Premium Accent */
-    --accent: 0 0% 88%;
-    --accent-foreground: 215 25% 27%;
+    /* Electric Blue Accent */
+    --accent: 200 100% 55%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 85%;
-    --input: 0 0% 100%;
-    --ring: 225 73% 57%;
+    --border: 220 40% 18%;
+    --input: 220 40% 10%;
+    --ring: 0 100% 50%;
 
     --radius: 0.75rem;
 
-    /* Premium Fintech Design Tokens */
-    --royal-blue: 225 73% 57%;
-    --royal-blue-dark: 225 73% 45%;
-    --silver: 0 0% 75%;
-    --silver-light: 0 0% 90%;
-    --silver-dark: 0 0% 65%;
-    --off-white: 0 0% 98%;
+    /* Stranger Things Special Colors */
+    --neon-red: 0 100% 50%;
+    --neon-red-glow: 0 100% 60%;
+    --demogorgon-purple: 280 100% 60%;
+    --electric-blue: 200 100% 55%;
+    --upside-down: 280 80% 20%;
+    --hawkins-dark: 220 50% 4%;
+    --christmas-light-red: 0 100% 45%;
+    --christmas-light-blue: 200 100% 50%;
+    --christmas-light-green: 120 100% 40%;
+    --christmas-light-yellow: 50 100% 50%;
     
-    /* Professional Gradients */
-    --gradient-background: linear-gradient(135deg, hsl(var(--silver-light)), hsl(var(--off-white)));
-    --gradient-card: linear-gradient(135deg, hsl(var(--silver) / 0.3), hsl(var(--silver-light) / 0.5));
-    --gradient-button: linear-gradient(135deg, hsl(var(--royal-blue)), hsl(var(--royal-blue-dark)));
+    /* VHS & Retro Effects */
+    --scanline-opacity: 0.03;
+    --static-opacity: 0.02;
+    --grain-opacity: 0.05;
     
-    /* Elegant Shadows */
-    --shadow-soft: 0 4px 12px hsl(0 0% 0% / 0.1);
-    --shadow-medium: 0 8px 25px hsl(0 0% 0% / 0.15);
-    --shadow-card: 0 2px 8px hsl(0 0% 0% / 0.08);
+    /* Atmospheric Gradients */
+    --gradient-upside-down: linear-gradient(180deg, hsl(280 80% 8%), hsl(220 50% 3%));
+    --gradient-portal: radial-gradient(ellipse at center, hsl(0 100% 30% / 0.3), transparent 70%);
+    --gradient-fog: linear-gradient(180deg, transparent, hsl(220 50% 3% / 0.8));
+    --gradient-neon-red: linear-gradient(135deg, hsl(0 100% 50%), hsl(0 100% 40%));
+    --gradient-neon-purple: linear-gradient(135deg, hsl(280 100% 60%), hsl(300 100% 40%));
+    
+    /* Glowing Shadows */
+    --shadow-neon-red: 0 0 20px hsl(0 100% 50% / 0.6), 0 0 40px hsl(0 100% 50% / 0.3);
+    --shadow-neon-purple: 0 0 20px hsl(280 100% 60% / 0.6), 0 0 40px hsl(280 100% 60% / 0.3);
+    --shadow-neon-blue: 0 0 20px hsl(200 100% 55% / 0.6), 0 0 40px hsl(200 100% 55% / 0.3);
+    --shadow-portal: 0 0 60px hsl(0 100% 50% / 0.4), 0 0 100px hsl(280 100% 60% / 0.2);
+    
+    /* Transitions */
+    --transition-flicker: all 0.1s ease-in-out;
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
-    /* Smooth Transitions */
-    --transition-smooth: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 220 50% 4%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 0 100% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 40% 12%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 220 40% 18%;
+    --sidebar-ring: 0 100% 50%;
   }
 
-  /* Dark theme same as root for consistency */
   .dark {
-    --background: 222 84% 4.9%;
-    --foreground: 180 100% 90%;
-    --card: 222 84% 8%;
-    --card-foreground: 180 100% 95%;
-    --popover: 222 84% 6%;
-    --popover-foreground: 180 100% 95%;
-    --primary: 180 100% 50%;
-    --primary-foreground: 222 84% 4.9%;
-    --secondary: 280 100% 70%;
-    --secondary-foreground: 222 84% 4.9%;
-    --muted: 222 50% 15%;
-    --muted-foreground: 180 30% 70%;
-    --accent: 195 100% 60%;
-    --accent-foreground: 222 84% 4.9%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 222 50% 20%;
-    --input: 222 50% 12%;
-    --ring: 180 100% 50%;
+    /* Same as root - dark is mandatory */
+    --background: 220 50% 3%;
+    --foreground: 0 0% 95%;
+    --card: 220 45% 6%;
+    --card-foreground: 0 0% 95%;
+    --popover: 220 50% 5%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 0 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 280 100% 60%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 220 30% 12%;
+    --muted-foreground: 220 10% 60%;
+    --accent: 200 100% 55%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 40% 18%;
+    --input: 220 40% 10%;
+    --ring: 0 100% 50%;
   }
 }
 
@@ -110,62 +117,401 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
-  body {
-    @apply bg-background text-foreground;
-    background: var(--gradient-background);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
-    overflow-x: hidden;
+  html {
+    color-scheme: dark;
   }
 
-  /* Premium Fintech UI Classes */
+  body {
+    @apply bg-background text-foreground;
+    background: var(--gradient-upside-down);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Grain/Noise Texture Overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: var(--grain-opacity);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  }
+
+  /* VHS Scanlines */
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9998;
+    opacity: var(--scanline-opacity);
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.3) 2px,
+      rgba(0, 0, 0, 0.3) 4px
+    );
+  }
+
+  /* ============================================
+     STRANGER THINGS TYPOGRAPHY
+     ============================================ */
+  
+  .stranger-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: hsl(var(--primary));
+    text-shadow: 
+      0 0 10px hsl(var(--primary)),
+      0 0 20px hsl(var(--primary)),
+      0 0 40px hsl(var(--primary)),
+      0 0 80px hsl(var(--primary) / 0.5);
+    animation: neon-flicker 3s ease-in-out infinite;
+  }
+
+  .subtitle-glow {
+    color: hsl(var(--accent));
+    text-shadow: 0 0 10px hsl(var(--accent) / 0.8);
+  }
+
+  /* ============================================
+     NEON FLICKER ANIMATIONS
+     ============================================ */
+  
+  @keyframes neon-flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+      text-shadow: 
+        0 0 10px hsl(var(--primary)),
+        0 0 20px hsl(var(--primary)),
+        0 0 40px hsl(var(--primary)),
+        0 0 80px hsl(var(--primary) / 0.5);
+      opacity: 1;
+    }
+    20%, 24%, 55% {
+      text-shadow: none;
+      opacity: 0.8;
+    }
+  }
+
+  @keyframes christmas-light-flicker {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    10% { opacity: 0.4; }
+    20% { opacity: 1; }
+    30% { opacity: 0.6; }
+    50% { opacity: 1; transform: scale(1.1); }
+    70% { opacity: 0.5; }
+    80% { opacity: 1; }
+    90% { opacity: 0.7; }
+  }
+
+  @keyframes portal-pulse {
+    0%, 100% {
+      box-shadow: 
+        0 0 30px hsl(var(--primary) / 0.5),
+        0 0 60px hsl(var(--secondary) / 0.3),
+        inset 0 0 30px hsl(var(--primary) / 0.2);
+    }
+    50% {
+      box-shadow: 
+        0 0 50px hsl(var(--primary) / 0.7),
+        0 0 100px hsl(var(--secondary) / 0.5),
+        inset 0 0 50px hsl(var(--primary) / 0.3);
+    }
+  }
+
+  @keyframes vhs-static {
+    0% { transform: translateX(0); }
+    10% { transform: translateX(-2px); }
+    20% { transform: translateX(2px); }
+    30% { transform: translateX(-1px); }
+    40% { transform: translateX(1px); }
+    50% { transform: translateX(0); }
+    60% { transform: translateX(-2px); }
+    70% { transform: translateX(1px); }
+    80% { transform: translateX(-1px); }
+    90% { transform: translateX(2px); }
+    100% { transform: translateX(0); }
+  }
+
+  @keyframes fog-drift {
+    0% { transform: translateX(-100%); opacity: 0; }
+    50% { opacity: 0.3; }
+    100% { transform: translateX(100%); opacity: 0; }
+  }
+
+  @keyframes walkie-pulse {
+    0%, 100% { box-shadow: 0 0 10px hsl(var(--primary) / 0.5); }
+    50% { box-shadow: 0 0 25px hsl(var(--primary) / 0.8), 0 0 50px hsl(var(--primary) / 0.4); }
+  }
+
+  @keyframes sound-wave {
+    0% { transform: scaleY(1); }
+    50% { transform: scaleY(1.5); }
+    100% { transform: scaleY(1); }
+  }
+
+  /* ============================================
+     STRANGER THINGS UI COMPONENTS
+     ============================================ */
+
   .premium-panel {
-    @apply bg-card border border-border rounded-xl;
-    box-shadow: var(--shadow-card);
-    background: var(--gradient-card);
+    @apply bg-card border rounded-xl relative overflow-hidden;
+    border-color: hsl(var(--border));
+    background: linear-gradient(135deg, hsl(var(--card)), hsl(220 50% 5%));
+    box-shadow: 
+      0 0 30px hsl(var(--primary) / 0.1),
+      inset 0 1px 0 hsl(var(--border));
+  }
+
+  .premium-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.5), transparent);
   }
 
   .fintech-button {
-    @apply bg-primary text-primary-foreground font-medium py-3 px-6 rounded-lg;
-    @apply transform transition-all duration-200 hover:bg-royal-blue-dark active:scale-95;
-    background: var(--gradient-button);
-    box-shadow: var(--shadow-soft);
+    @apply font-bold py-3 px-6 rounded-lg relative overflow-hidden;
+    background: var(--gradient-neon-red);
+    color: hsl(var(--primary-foreground));
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    box-shadow: var(--shadow-neon-red);
+    transition: var(--transition-smooth);
+    border: 1px solid hsl(var(--primary) / 0.5);
   }
 
   .fintech-button:hover {
-    @apply bg-royal-blue-dark;
-    box-shadow: var(--shadow-medium);
+    transform: scale(1.05);
+    box-shadow: 
+      0 0 30px hsl(var(--primary) / 0.8),
+      0 0 60px hsl(var(--primary) / 0.4);
   }
+
+  .fintech-button:active {
+    transform: scale(0.98);
+  }
+
+  .fintech-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, hsl(0 0% 100% / 0.2), transparent);
+    transition: left 0.5s;
+  }
+
+  .fintech-button:hover::before {
+    left: 100%;
+  }
+
+  /* Walkie-Talkie Input Style */
+  .walkie-input {
+    @apply bg-input border-2 rounded-lg px-4 py-3;
+    border-color: hsl(var(--border));
+    background: linear-gradient(180deg, hsl(220 40% 8%), hsl(220 40% 6%));
+    box-shadow: 
+      inset 0 2px 4px hsl(0 0% 0% / 0.5),
+      0 0 10px hsl(var(--primary) / 0.1);
+    transition: var(--transition-smooth);
+  }
+
+  .walkie-input:focus {
+    border-color: hsl(var(--primary));
+    box-shadow: 
+      inset 0 2px 4px hsl(0 0% 0% / 0.5),
+      0 0 20px hsl(var(--primary) / 0.3);
+    outline: none;
+  }
+
+  /* Message Bubble Styles */
+  .message-bubble {
+    @apply rounded-xl px-4 py-3 relative;
+    background: linear-gradient(135deg, hsl(220 45% 10%), hsl(220 45% 8%));
+    border: 1px solid hsl(var(--border));
+    box-shadow: 
+      0 0 15px hsl(var(--primary) / 0.1),
+      inset 0 1px 0 hsl(var(--border));
+    animation: message-appear 0.3s ease-out;
+  }
+
+  .message-bubble::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: inherit;
+    border: 1px solid transparent;
+    background: linear-gradient(135deg, hsl(var(--primary) / 0.2), hsl(var(--secondary) / 0.1)) border-box;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  @keyframes message-appear {
+    from {
+      opacity: 0;
+      transform: translateY(10px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  /* Christmas Light Typing Indicator */
+  .typing-indicator {
+    @apply flex gap-2;
+  }
+
+  .typing-dot {
+    @apply w-3 h-3 rounded-full;
+    animation: christmas-light-flicker 1.5s ease-in-out infinite;
+  }
+
+  .typing-dot:nth-child(1) {
+    background: hsl(var(--christmas-light-red));
+    box-shadow: 0 0 10px hsl(var(--christmas-light-red));
+    animation-delay: 0s;
+  }
+
+  .typing-dot:nth-child(2) {
+    background: hsl(var(--christmas-light-blue));
+    box-shadow: 0 0 10px hsl(var(--christmas-light-blue));
+    animation-delay: 0.2s;
+  }
+
+  .typing-dot:nth-child(3) {
+    background: hsl(var(--christmas-light-green));
+    box-shadow: 0 0 10px hsl(var(--christmas-light-green));
+    animation-delay: 0.4s;
+  }
+
+  /* Sound Wave Animation */
+  .sound-wave-bar {
+    @apply w-1 bg-primary rounded-full;
+    animation: sound-wave 0.5s ease-in-out infinite;
+  }
+
+  .sound-wave-bar:nth-child(1) { animation-delay: 0s; height: 12px; }
+  .sound-wave-bar:nth-child(2) { animation-delay: 0.1s; height: 20px; }
+  .sound-wave-bar:nth-child(3) { animation-delay: 0.2s; height: 16px; }
+  .sound-wave-bar:nth-child(4) { animation-delay: 0.3s; height: 24px; }
+  .sound-wave-bar:nth-child(5) { animation-delay: 0.4s; height: 14px; }
 
   .code-display {
     @apply font-mono bg-muted border border-border rounded-lg p-4;
     @apply text-foreground;
-    font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+    font-family: 'JetBrains Mono', 'SF Mono', monospace;
+    text-shadow: 0 0 5px hsl(var(--primary) / 0.3);
   }
 
   .elegant-title {
-    @apply text-5xl font-bold tracking-tight text-foreground;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+    @apply text-5xl font-black tracking-widest uppercase;
+    color: hsl(var(--primary));
+    text-shadow: 
+      0 0 10px hsl(var(--primary)),
+      0 0 20px hsl(var(--primary)),
+      0 0 40px hsl(var(--primary)),
+      0 0 80px hsl(var(--primary) / 0.5);
+    animation: neon-flicker 3s ease-in-out infinite;
   }
 
   .key-display {
-    @apply text-3xl font-semibold tracking-wider text-primary;
-    font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+    @apply text-3xl font-bold tracking-widest;
+    color: hsl(var(--accent));
+    font-family: 'JetBrains Mono', monospace;
+    text-shadow: 0 0 10px hsl(var(--accent) / 0.8);
   }
 
   .section-divider {
-    @apply w-full h-px bg-border my-8;
+    @apply w-full h-px my-8;
+    background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.5), transparent);
   }
 
-  /* Professional Animations */
-  @keyframes gentle-fade {
-    0% { opacity: 0; transform: translateY(10px); }
-    100% { opacity: 1; transform: translateY(0); }
+  /* Fog Overlay */
+  .fog-overlay {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 200px;
+    pointer-events: none;
+    background: linear-gradient(to top, hsl(220 50% 3% / 0.9), transparent);
+    z-index: 10;
   }
 
-  @keyframes soft-scale {
-    0% { transform: scale(0.98); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
+  /* Portal Effect */
+  .portal-glow {
+    animation: portal-pulse 3s ease-in-out infinite;
+    border-radius: 50%;
   }
+
+  /* VHS Effect */
+  .vhs-distort {
+    animation: vhs-static 0.5s steps(10) infinite;
+  }
+
+  /* Upside Down Red Tint */
+  .upside-down-tint {
+    position: relative;
+  }
+
+  .upside-down-tint::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: hsl(var(--primary) / 0.1);
+    pointer-events: none;
+    filter: blur(20px);
+  }
+
+  /* ============================================
+     SCROLLBAR STYLING
+     ============================================ */
+  
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, hsl(var(--primary)), hsl(var(--secondary)));
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary));
+    box-shadow: 0 0 10px hsl(var(--primary) / 0.5);
+  }
+
+  /* ============================================
+     UTILITY ANIMATIONS
+     ============================================ */
 
   .animate-gentle-fade {
     animation: gentle-fade 0.4s ease-out;
@@ -175,21 +521,13 @@ All colors MUST be HSL.
     animation: soft-scale 0.3s ease-out;
   }
 
-  /* Scrollbar */
-  ::-webkit-scrollbar {
-    width: 6px;
+  @keyframes gentle-fade {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
   }
 
-  ::-webkit-scrollbar-track {
-    background: hsl(var(--muted));
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: hsl(var(--border));
-    border-radius: 3px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--primary));
+  @keyframes soft-scale {
+    0% { transform: scale(0.98); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
   }
 }
