@@ -35,24 +35,24 @@ const InteractiveStep = ({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay }}
     >
-      <Card className="premium-panel">
+      <Card className="premium-panel border-primary/30">
         <CardContent className="p-6">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-royal-blue text-white rounded-full flex items-center justify-center font-bold text-sm">
+              <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary text-primary-foreground rounded-full flex items-center justify-center font-bold text-sm shadow-neon-red">
                 {stepNumber}
               </div>
-              <h3 className="text-xl font-semibold">{title}</h3>
+              <h3 className="text-xl font-semibold text-foreground">{title}</h3>
             </div>
             
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-8 w-8">
+                  <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary hover:bg-primary/10">
                     <Info className="h-4 w-4" />
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent className="max-w-xs">
+                <TooltipContent className="max-w-xs bg-card border-primary/30">
                   <p>{tooltip}</p>
                 </TooltipContent>
               </Tooltip>
