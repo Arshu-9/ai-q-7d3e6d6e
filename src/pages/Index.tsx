@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { GraduationCap } from "lucide-react";
+import { GraduationCap, Wrench } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Loader2, Zap, Sparkles } from "lucide-react";
 import { ConversionStep } from "@/components/ConversionStep";
@@ -193,14 +193,24 @@ const Index = () => {
             </motion.div>
           </div>
           
-          <Button
-            onClick={() => navigate("/quantum-education")}
-            variant="outline"
-            className="gap-2 border-border hover:border-primary hover:bg-primary/10 transition-all duration-300 hover:shadow-neon-red"
-          >
-            <GraduationCap className="w-4 h-4" />
-            Learn About Quantum Physics
-          </Button>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Button
+              onClick={() => navigate("/quantum-education")}
+              variant="outline"
+              className="gap-2 border-border hover:border-primary hover:bg-primary/10 transition-all duration-300 hover:shadow-neon-red"
+            >
+              <GraduationCap className="w-4 h-4" />
+              Learn About Quantum Physics
+            </Button>
+            <Button
+              onClick={() => navigate("/quantum-tools")}
+              variant="outline"
+              className="gap-2 border-border hover:border-secondary hover:bg-secondary/10 transition-all duration-300 hover:shadow-neon-purple"
+            >
+              <Wrench className="w-4 h-4" />
+              Quantum Tools
+            </Button>
+          </div>
         </motion.div>
 
         {/* Generate Button - Walkie Talkie Style */}
