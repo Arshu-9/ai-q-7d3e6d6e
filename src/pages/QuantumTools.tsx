@@ -268,7 +268,7 @@ const QuantumTools = () => {
             delay={0.1}
           >
             <div className="space-y-4">
-              <div className="flex items-center gap-4">
+              <form onSubmit={(e) => { e.preventDefault(); generateOTP(); }} className="flex items-center gap-4">
                 <label className="text-sm text-muted-foreground">Length:</label>
                 <Input
                   type="number"
@@ -278,7 +278,7 @@ const QuantumTools = () => {
                   onChange={(e) => setOtpLength(Number(e.target.value))}
                   className="w-20 bg-muted/50 border-border"
                 />
-              </div>
+              </form>
               <Button
                 onClick={generateOTP}
                 disabled={otpLoading}
@@ -299,7 +299,7 @@ const QuantumTools = () => {
             delay={0.2}
           >
             <div className="space-y-4">
-              <div className="flex items-center gap-4">
+              <form onSubmit={(e) => { e.preventDefault(); generatePassword(); }} className="flex items-center gap-4">
                 <label className="text-sm text-muted-foreground">Length:</label>
                 <Input
                   type="number"
@@ -309,7 +309,7 @@ const QuantumTools = () => {
                   onChange={(e) => setPasswordLength(Number(e.target.value))}
                   className="w-20 bg-muted/50 border-border"
                 />
-              </div>
+              </form>
               <label className="flex items-center gap-2 text-sm text-muted-foreground cursor-pointer">
                 <input
                   type="checkbox"
@@ -358,7 +358,7 @@ const QuantumTools = () => {
             description="Unbiased random selection"
             delay={0.4}
           >
-            <div className="space-y-4">
+            <form onSubmit={(e) => { e.preventDefault(); pickRandom(); }} className="space-y-4">
               <Input
                 placeholder="Enter items (comma-separated)"
                 value={pickerItems}
@@ -383,7 +383,7 @@ const QuantumTools = () => {
                   <p className="text-3xl font-bold text-primary">{pickedItem}</p>
                 </motion.div>
               )}
-            </div>
+            </form>
           </ToolCard>
 
           {/* 5. Token Generator - Full Width */}
@@ -395,7 +395,7 @@ const QuantumTools = () => {
               delay={0.5}
             >
               <div className="space-y-4">
-                <div className="flex items-center gap-4">
+                <form onSubmit={(e) => { e.preventDefault(); generateToken(); }} className="flex items-center gap-4">
                   <label className="text-sm text-muted-foreground">Length:</label>
                   <Input
                     type="number"
@@ -405,7 +405,7 @@ const QuantumTools = () => {
                     onChange={(e) => setTokenLength(Number(e.target.value))}
                     className="w-24 bg-muted/50 border-border"
                   />
-                </div>
+                </form>
                 <Button
                   onClick={generateToken}
                   disabled={tokenLoading}
