@@ -82,7 +82,8 @@ export const EntropyVisualization = ({ qrngData, binary }: EntropyVisualizationP
   const byteDistribution = analyzeByteDistribution();
   const entropy = calculateEntropy();
 
-  const pieColors = ['hsl(var(--royal-blue))', 'hsl(var(--silver))'];
+  // Neon colors for dark theme
+  const pieColors = ['hsl(0, 100%, 50%)', 'hsl(280, 100%, 60%)'];
 
   if (!qrngData) return null;
 
@@ -93,19 +94,19 @@ export const EntropyVisualization = ({ qrngData, binary }: EntropyVisualizationP
       transition={{ duration: 0.6, delay: 0.5 }}
       className="premium-panel p-6 space-y-6"
     >
-      <h3 className="text-lg font-semibold text-foreground border-b border-border pb-2">
+      <h3 className="text-lg font-semibold text-foreground border-b border-primary/30 pb-2">
         Entropy Analysis & Randomness Distribution
       </h3>
       
       {/* Entropy Score */}
-      <div className="text-center p-4 bg-muted rounded-lg">
-        <div className="text-2xl font-bold text-primary mb-1">{entropy}</div>
+      <div className="text-center p-4 bg-primary/10 rounded-lg border border-primary/30">
+        <div className="text-2xl font-bold text-primary mb-1" style={{ textShadow: '0 0 10px hsl(var(--primary))' }}>{entropy}</div>
         <div className="text-sm text-muted-foreground">Shannon Entropy (max: 1.0000)</div>
       </div>
 
       {/* Bit Distribution */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div>
+        <div className="bg-muted/20 p-4 rounded-lg border border-border">
           <h4 className="font-medium mb-3 text-foreground">Bit Distribution</h4>
           <div className="h-48">
             <ResponsiveContainer width="100%" height="100%">
@@ -117,6 +118,7 @@ export const EntropyVisualization = ({ qrngData, binary }: EntropyVisualizationP
                   outerRadius={60}
                   dataKey="value"
                   label={({ name, percentage }) => `${name}: ${percentage}%`}
+                  labelLine={{ stroke: 'hsl(var(--muted-foreground))' }}
                 >
                   {bitDistribution.map((_, index) => (
                     <Cell key={`cell-${index}`} fill={pieColors[index]} />
@@ -128,14 +130,14 @@ export const EntropyVisualization = ({ qrngData, binary }: EntropyVisualizationP
         </div>
 
         {/* Hex Character Frequency */}
-        <div>
+        <div className="bg-muted/20 p-4 rounded-lg border border-border">
           <h4 className="font-medium mb-3 text-foreground">Hex Character Frequency</h4>
           <div className="h-48">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={hexFrequency}>
-                <XAxis dataKey="char" className="text-xs" />
-                <YAxis className="text-xs" />
-                <Bar dataKey="count" fill="hsl(var(--royal-blue))" radius={[2, 2, 0, 0]} />
+                <XAxis dataKey="char" tick={{ fill: 'hsl(var(--muted-foreground))' }} />
+                <YAxis tick={{ fill: 'hsl(var(--muted-foreground))' }} />
+                <Bar dataKey="count" fill="hsl(0, 100%, 50%)" radius={[2, 2, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -143,19 +145,19 @@ export const EntropyVisualization = ({ qrngData, binary }: EntropyVisualizationP
       </div>
 
       {/* Byte Distribution */}
-      <div>
+      <div className="bg-muted/20 p-4 rounded-lg border border-border">
         <h4 className="font-medium mb-3 text-foreground">Byte Value Distribution (0-255)</h4>
         <div className="h-48">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={byteDistribution}>
-              <XAxis dataKey="range" className="text-xs" />
-              <YAxis className="text-xs" />
+              <XAxis dataKey="range" tick={{ fill: 'hsl(var(--muted-foreground))' }} />
+              <YAxis tick={{ fill: 'hsl(var(--muted-foreground))' }} />
               <Line 
                 type="monotone" 
                 dataKey="count" 
-                stroke="hsl(var(--royal-blue))" 
+                stroke="hsl(0, 100%, 50%)" 
                 strokeWidth={2}
-                dot={{ fill: "hsl(var(--royal-blue))", strokeWidth: 2, r: 3 }}
+                dot={{ fill: "hsl(0, 100%, 50%)", strokeWidth: 2, r: 3 }}
               />
             </LineChart>
           </ResponsiveContainer>
@@ -163,20 +165,20 @@ export const EntropyVisualization = ({ qrngData, binary }: EntropyVisualizationP
       </div>
 
       {/* Statistics Summary */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4 border-t border-border">
-        <div className="text-center">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4 border-t border-primary/30">
+        <div className="text-center bg-muted/20 p-3 rounded-lg">
           <div className="text-lg font-semibold text-primary">{qrngData.length}</div>
           <div className="text-xs text-muted-foreground">Hex Characters</div>
         </div>
-        <div className="text-center">
+        <div className="text-center bg-muted/20 p-3 rounded-lg">
           <div className="text-lg font-semibold text-primary">{binary.length}</div>
           <div className="text-xs text-muted-foreground">Binary Bits</div>
         </div>
-        <div className="text-center">
+        <div className="text-center bg-muted/20 p-3 rounded-lg">
           <div className="text-lg font-semibold text-primary">{binary.length / 8}</div>
           <div className="text-xs text-muted-foreground">Bytes</div>
         </div>
-        <div className="text-center">
+        <div className="text-center bg-muted/20 p-3 rounded-lg">
           <div className="text-lg font-semibold text-primary">{hexFrequency.length}</div>
           <div className="text-xs text-muted-foreground">Unique Chars</div>
         </div>

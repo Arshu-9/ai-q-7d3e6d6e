@@ -25,9 +25,9 @@ export const PremiumFinalKeyDisplay = ({ finalKey }: PremiumFinalKeyDisplayProps
       className="relative overflow-hidden"
     >
       {/* Background Animation */}
-      <div className="absolute inset-0 bg-gradient-to-br from-royal-blue/5 to-silver-light/10 rounded-2xl animate-pulse" />
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl animate-pulse" />
       
-      <div className="relative premium-panel p-8 text-center bg-gradient-to-br from-silver-light/80 to-card border-2 border-royal-blue/20">
+      <div className="relative premium-panel p-8 text-center border-2 border-primary/30">
         {/* Sparkle Animation */}
         <motion.div
           initial={{ opacity: 0, rotate: -45 }}
@@ -35,7 +35,7 @@ export const PremiumFinalKeyDisplay = ({ finalKey }: PremiumFinalKeyDisplayProps
           transition={{ duration: 1, delay: 0.5 }}
           className="absolute top-4 right-4"
         >
-          <Sparkles className="w-6 h-6 text-royal-blue animate-pulse" />
+          <Sparkles className="w-6 h-6 text-primary animate-pulse" />
         </motion.div>
 
         {/* Title */}
@@ -48,7 +48,7 @@ export const PremiumFinalKeyDisplay = ({ finalKey }: PremiumFinalKeyDisplayProps
           <h3 className="text-lg font-medium text-muted-foreground mb-2 uppercase tracking-wide">
             Your Quantum-Generated Key
           </h3>
-          <div className="w-24 h-1 bg-gradient-to-r from-royal-blue to-royal-blue-dark mx-auto rounded-full" />
+          <div className="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full" />
         </motion.div>
 
         {/* Key Display */}
@@ -58,8 +58,8 @@ export const PremiumFinalKeyDisplay = ({ finalKey }: PremiumFinalKeyDisplayProps
           transition={{ duration: 0.8, delay: 0.8, type: "spring", stiffness: 120 }}
           className="mb-6"
         >
-          <div className="bg-gradient-to-r from-white to-silver-light/50 p-6 rounded-xl border-2 border-royal-blue/30 shadow-lg">
-            <div className="key-display text-royal-blue mb-2">
+          <div className="bg-muted/30 backdrop-blur-sm p-6 rounded-xl border-2 border-primary/40 shadow-neon-red">
+            <div className="key-display text-primary mb-2">
               {finalKey.split('').map((char, index) => (
                 <motion.span
                   key={index}
@@ -72,6 +72,7 @@ export const PremiumFinalKeyDisplay = ({ finalKey }: PremiumFinalKeyDisplayProps
                     stiffness: 200
                   }}
                   className="inline-block mx-2 font-mono text-4xl font-bold transform hover:scale-110 transition-transform cursor-default"
+                  style={{ textShadow: '0 0 20px hsl(var(--primary))' }}
                 >
                   {char}
                 </motion.span>
@@ -90,8 +91,8 @@ export const PremiumFinalKeyDisplay = ({ finalKey }: PremiumFinalKeyDisplayProps
           transition={{ duration: 0.6, delay: 1.5 }}
           className="mb-6"
         >
-          <div className="inline-flex items-center space-x-2 bg-green-100 text-green-800 px-4 py-2 rounded-full border border-green-300">
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+          <div className="inline-flex items-center space-x-2 bg-accent/20 text-accent px-4 py-2 rounded-full border border-accent/40">
+            <div className="w-2 h-2 bg-accent rounded-full animate-pulse" />
             <span className="text-sm font-medium">Ultra-Secure Quantum Randomness</span>
           </div>
         </motion.div>
@@ -102,7 +103,7 @@ export const PremiumFinalKeyDisplay = ({ finalKey }: PremiumFinalKeyDisplayProps
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.7 }}
           onClick={copyToClipboard}
-          className="fintech-button text-lg px-8 py-3 inline-flex items-center space-x-3 shadow-lg hover:shadow-xl transition-all duration-300"
+          className="fintech-button text-lg px-8 py-3 inline-flex items-center space-x-3"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -124,9 +125,9 @@ export const PremiumFinalKeyDisplay = ({ finalKey }: PremiumFinalKeyDisplayProps
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 2 }}
-          className="mt-6 text-xs text-muted-foreground bg-muted/50 p-3 rounded-lg"
+          className="mt-6 text-xs text-muted-foreground bg-muted/30 p-3 rounded-lg border border-border"
         >
-          <strong>Technical Details:</strong> Generated from quantum random hex via ANU QRNG API, 
+          <strong className="text-foreground">Technical Details:</strong> Generated from quantum random hex via ANU QRNG API, 
           converted to binary, chunked into 6-bit segments, and mapped to Base-62 characters.
         </motion.div>
       </div>
