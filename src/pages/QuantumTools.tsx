@@ -193,6 +193,7 @@ const QuantumTools = () => {
       </div>
       {value && (
         <button
+          type="button"
           onClick={() => copyToClipboard(value, field)}
           className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-lg bg-primary/20 hover:bg-primary/30 transition-colors border border-primary/30"
         >
@@ -280,6 +281,7 @@ const QuantumTools = () => {
                 />
               </form>
               <Button
+                type="button"
                 onClick={generateOTP}
                 disabled={otpLoading}
                 className="w-full fintech-button"
@@ -320,6 +322,7 @@ const QuantumTools = () => {
                 Include symbols (!@#$%...)
               </label>
               <Button
+                type="button"
                 onClick={generatePassword}
                 disabled={passwordLoading}
                 className="w-full fintech-button"
@@ -340,6 +343,7 @@ const QuantumTools = () => {
           >
             <div className="space-y-4">
               <Button
+                type="button"
                 onClick={generateUniqueId}
                 disabled={idLoading}
                 className="w-full fintech-button"
@@ -366,6 +370,7 @@ const QuantumTools = () => {
                 className="bg-muted/50 border-border"
               />
               <Button
+                type="button"
                 onClick={pickRandom}
                 disabled={pickerLoading}
                 className="w-full fintech-button"
@@ -407,6 +412,7 @@ const QuantumTools = () => {
                   />
                 </form>
                 <Button
+                  type="button"
                   onClick={generateToken}
                   disabled={tokenLoading}
                   className="w-full fintech-button"
