@@ -11,6 +11,7 @@ import QuantumPassword from "./pages/quantum-tools/QuantumPassword";
 import QuantumUniqueID from "./pages/quantum-tools/QuantumUniqueID";
 import QuantumPicker from "./pages/quantum-tools/QuantumPicker";
 import QuantumToken from "./pages/quantum-tools/QuantumToken";
+import QuantumAPI from "./pages/quantum-tools/QuantumAPI";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ const App = () => (
           <Route path="/quantum-tools/unique-id" element={<QuantumUniqueID />} />
           <Route path="/quantum-tools/picker" element={<QuantumPicker />} />
           <Route path="/quantum-tools/token" element={<QuantumToken />} />
+          <Route path="/quantum-tools/api" element={<QuantumAPI />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
