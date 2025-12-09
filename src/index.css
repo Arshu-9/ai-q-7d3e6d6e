@@ -56,23 +56,23 @@
     --christmas-light-green: 120 100% 40%;
     --christmas-light-yellow: 50 100% 50%;
     
-    /* VHS & Retro Effects */
-    --scanline-opacity: 0.03;
-    --static-opacity: 0.02;
-    --grain-opacity: 0.05;
+    /* VHS & Retro Effects - Subtle */
+    --scanline-opacity: 0.015;
+    --static-opacity: 0.01;
+    --grain-opacity: 0.03;
     
     /* Atmospheric Gradients */
     --gradient-upside-down: linear-gradient(180deg, hsl(280 80% 8%), hsl(220 50% 3%));
-    --gradient-portal: radial-gradient(ellipse at center, hsl(0 100% 30% / 0.3), transparent 70%);
+    --gradient-portal: radial-gradient(ellipse at center, hsl(0 100% 30% / 0.15), transparent 70%);
     --gradient-fog: linear-gradient(180deg, transparent, hsl(220 50% 3% / 0.8));
     --gradient-neon-red: linear-gradient(135deg, hsl(0 100% 50%), hsl(0 100% 40%));
     --gradient-neon-purple: linear-gradient(135deg, hsl(280 100% 60%), hsl(300 100% 40%));
     
-    /* Glowing Shadows */
-    --shadow-neon-red: 0 0 20px hsl(0 100% 50% / 0.6), 0 0 40px hsl(0 100% 50% / 0.3);
-    --shadow-neon-purple: 0 0 20px hsl(280 100% 60% / 0.6), 0 0 40px hsl(280 100% 60% / 0.3);
-    --shadow-neon-blue: 0 0 20px hsl(200 100% 55% / 0.6), 0 0 40px hsl(200 100% 55% / 0.3);
-    --shadow-portal: 0 0 60px hsl(0 100% 50% / 0.4), 0 0 100px hsl(280 100% 60% / 0.2);
+    /* Subtle Shadows - Reduced glow */
+    --shadow-neon-red: 0 0 10px hsl(0 100% 50% / 0.3), 0 0 20px hsl(0 100% 50% / 0.15);
+    --shadow-neon-purple: 0 0 10px hsl(280 100% 60% / 0.3), 0 0 20px hsl(280 100% 60% / 0.15);
+    --shadow-neon-blue: 0 0 10px hsl(200 100% 55% / 0.3), 0 0 20px hsl(200 100% 55% / 0.15);
+    --shadow-portal: 0 0 30px hsl(0 100% 50% / 0.2), 0 0 50px hsl(280 100% 60% / 0.1);
     
     /* Transitions */
     --transition-flicker: all 0.1s ease-in-out;
@@ -172,62 +172,44 @@
     font-weight: 900;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: hsl(var(--primary));
-    text-shadow: 
-      0 0 10px hsl(var(--primary)),
-      0 0 20px hsl(var(--primary)),
-      0 0 40px hsl(var(--primary)),
-      0 0 80px hsl(var(--primary) / 0.5);
-    animation: neon-flicker 3s ease-in-out infinite;
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.8));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .subtitle-glow {
     color: hsl(var(--accent));
-    text-shadow: 0 0 10px hsl(var(--accent) / 0.8);
   }
 
   /* ============================================
-     NEON FLICKER ANIMATIONS
+     SUBTLE ANIMATIONS - No harsh flicker
      ============================================ */
   
   @keyframes neon-flicker {
-    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-      text-shadow: 
-        0 0 10px hsl(var(--primary)),
-        0 0 20px hsl(var(--primary)),
-        0 0 40px hsl(var(--primary)),
-        0 0 80px hsl(var(--primary) / 0.5);
+    0%, 100% {
       opacity: 1;
     }
-    20%, 24%, 55% {
-      text-shadow: none;
-      opacity: 0.8;
+    50% {
+      opacity: 0.95;
     }
   }
 
   @keyframes christmas-light-flicker {
     0%, 100% { opacity: 1; transform: scale(1); }
-    10% { opacity: 0.4; }
-    20% { opacity: 1; }
-    30% { opacity: 0.6; }
-    50% { opacity: 1; transform: scale(1.1); }
-    70% { opacity: 0.5; }
-    80% { opacity: 1; }
-    90% { opacity: 0.7; }
+    50% { opacity: 0.9; transform: scale(1.02); }
   }
 
   @keyframes portal-pulse {
     0%, 100% {
       box-shadow: 
-        0 0 30px hsl(var(--primary) / 0.5),
-        0 0 60px hsl(var(--secondary) / 0.3),
-        inset 0 0 30px hsl(var(--primary) / 0.2);
+        0 0 15px hsl(var(--primary) / 0.2),
+        0 0 30px hsl(var(--secondary) / 0.1);
     }
     50% {
       box-shadow: 
-        0 0 50px hsl(var(--primary) / 0.7),
-        0 0 100px hsl(var(--secondary) / 0.5),
-        inset 0 0 50px hsl(var(--primary) / 0.3);
+        0 0 20px hsl(var(--primary) / 0.3),
+        0 0 40px hsl(var(--secondary) / 0.15);
     }
   }
 
@@ -252,8 +234,8 @@
   }
 
   @keyframes walkie-pulse {
-    0%, 100% { box-shadow: 0 0 10px hsl(var(--primary) / 0.5); }
-    50% { box-shadow: 0 0 25px hsl(var(--primary) / 0.8), 0 0 50px hsl(var(--primary) / 0.4); }
+    0%, 100% { box-shadow: 0 0 5px hsl(var(--primary) / 0.2); }
+    50% { box-shadow: 0 0 10px hsl(var(--primary) / 0.3); }
   }
 
   @keyframes sound-wave {
@@ -267,12 +249,10 @@
      ============================================ */
 
   .premium-panel {
-    @apply bg-card border-2 rounded-xl relative overflow-hidden;
-    border-color: hsl(var(--primary) / 0.4);
-    background: linear-gradient(135deg, hsl(220 45% 10%), hsl(220 50% 6%));
-    box-shadow: 
-      0 0 40px hsl(var(--primary) / 0.2),
-      inset 0 1px 0 hsl(var(--primary) / 0.2);
+    @apply bg-card border rounded-xl relative overflow-hidden;
+    border-color: hsl(var(--border));
+    background: linear-gradient(135deg, hsl(220 45% 8%), hsl(220 50% 5%));
+    box-shadow: 0 4px 20px hsl(0 0% 0% / 0.3);
   }
 
   .premium-panel::before {
@@ -281,8 +261,8 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, hsl(var(--primary)), transparent);
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsl(var(--border)), transparent);
   }
 
   .fintech-button {
@@ -291,16 +271,14 @@
     color: hsl(var(--primary-foreground));
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    box-shadow: var(--shadow-neon-red);
+    box-shadow: 0 4px 15px hsl(var(--primary) / 0.25);
     transition: var(--transition-smooth);
-    border: 1px solid hsl(var(--primary) / 0.5);
+    border: 1px solid hsl(var(--primary) / 0.3);
   }
 
   .fintech-button:hover {
-    transform: scale(1.05);
-    box-shadow: 
-      0 0 30px hsl(var(--primary) / 0.8),
-      0 0 60px hsl(var(--primary) / 0.4);
+    transform: scale(1.02);
+    box-shadow: 0 6px 20px hsl(var(--primary) / 0.35);
   }
 
   .fintech-button:active {
@@ -324,20 +302,16 @@
 
   /* Walkie-Talkie Input Style */
   .walkie-input {
-    @apply bg-input border-2 rounded-lg px-4 py-3;
+    @apply bg-input border rounded-lg px-4 py-3;
     border-color: hsl(var(--border));
     background: linear-gradient(180deg, hsl(220 40% 8%), hsl(220 40% 6%));
-    box-shadow: 
-      inset 0 2px 4px hsl(0 0% 0% / 0.5),
-      0 0 10px hsl(var(--primary) / 0.1);
+    box-shadow: inset 0 2px 4px hsl(0 0% 0% / 0.3);
     transition: var(--transition-smooth);
   }
 
   .walkie-input:focus {
-    border-color: hsl(var(--primary));
-    box-shadow: 
-      inset 0 2px 4px hsl(0 0% 0% / 0.5),
-      0 0 20px hsl(var(--primary) / 0.3);
+    border-color: hsl(var(--primary) / 0.5);
+    box-shadow: inset 0 2px 4px hsl(0 0% 0% / 0.3);
     outline: none;
   }
 
@@ -346,9 +320,6 @@
     @apply rounded-xl px-4 py-3 relative;
     background: linear-gradient(135deg, hsl(220 45% 10%), hsl(220 45% 8%));
     border: 1px solid hsl(var(--border));
-    box-shadow: 
-      0 0 15px hsl(var(--primary) / 0.1),
-      inset 0 1px 0 hsl(var(--border));
     animation: message-appear 0.3s ease-out;
   }
 
@@ -392,19 +363,16 @@
 
   .typing-dot:nth-child(1) {
     background: hsl(var(--christmas-light-red));
-    box-shadow: 0 0 10px hsl(var(--christmas-light-red));
     animation-delay: 0s;
   }
 
   .typing-dot:nth-child(2) {
     background: hsl(var(--christmas-light-blue));
-    box-shadow: 0 0 10px hsl(var(--christmas-light-blue));
     animation-delay: 0.2s;
   }
 
   .typing-dot:nth-child(3) {
     background: hsl(var(--christmas-light-green));
-    box-shadow: 0 0 10px hsl(var(--christmas-light-green));
     animation-delay: 0.4s;
   }
 
@@ -421,30 +389,25 @@
   .sound-wave-bar:nth-child(5) { animation-delay: 0.4s; height: 14px; }
 
   .code-display {
-    @apply font-mono border-2 rounded-lg p-4;
+    @apply font-mono border rounded-lg p-4;
     @apply text-foreground;
     background: hsl(220 45% 8%);
-    border-color: hsl(var(--primary) / 0.4);
+    border-color: hsl(var(--border));
     font-family: 'JetBrains Mono', 'SF Mono', monospace;
-    text-shadow: 0 0 10px hsl(var(--primary) / 0.5);
   }
 
   .elegant-title {
     @apply text-5xl font-black tracking-widest uppercase;
-    color: hsl(var(--primary));
-    text-shadow: 
-      0 0 10px hsl(var(--primary)),
-      0 0 20px hsl(var(--primary)),
-      0 0 40px hsl(var(--primary)),
-      0 0 80px hsl(var(--primary) / 0.5);
-    animation: neon-flicker 3s ease-in-out infinite;
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .key-display {
     @apply text-3xl font-bold tracking-widest;
     color: hsl(var(--accent));
     font-family: 'JetBrains Mono', monospace;
-    text-shadow: 0 0 10px hsl(var(--accent) / 0.8);
   }
 
   .section-divider {
