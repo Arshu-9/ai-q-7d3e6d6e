@@ -149,7 +149,7 @@ serve(async (req) => {
         result = { 
           otp, 
           entropy: isQuantum ? "quantum" : "csprng",
-          source: isQuantum ? "ANU QRNG (quantum vacuum fluctuations)" : "crypto.getRandomValues (CSPRNG fallback)",
+          source: isQuantum ? "Stranger Q" : "CSPRNG fallback",
           length, 
           type 
         };
@@ -168,7 +168,7 @@ serve(async (req) => {
           strength, 
           length,
           entropy: isQuantum ? "quantum" : "csprng",
-          source: isQuantum ? "ANU QRNG (quantum vacuum fluctuations)" : "crypto.getRandomValues (CSPRNG fallback)"
+          source: isQuantum ? "Stranger Q" : "CSPRNG fallback"
         };
         break;
       }
@@ -180,7 +180,7 @@ serve(async (req) => {
           id: uuid, 
           format,
           entropy: isQuantum ? "quantum" : "csprng",
-          source: isQuantum ? "ANU QRNG (quantum vacuum fluctuations)" : "crypto.getRandomValues (CSPRNG fallback)"
+          source: isQuantum ? "Stranger Q" : "CSPRNG fallback"
         };
         break;
       }
@@ -193,7 +193,7 @@ serve(async (req) => {
           token, 
           length: token.length,
           entropy: isQuantum ? "quantum" : "csprng",
-          source: isQuantum ? "ANU QRNG (quantum vacuum fluctuations)" : "crypto.getRandomValues (CSPRNG fallback)"
+          source: isQuantum ? "Stranger Q" : "CSPRNG fallback"
         };
         break;
       }
@@ -213,7 +213,7 @@ serve(async (req) => {
           selected, 
           count: selected.length,
           entropy: isQuantum ? "quantum" : "csprng",
-          source: isQuantum ? "ANU QRNG (quantum vacuum fluctuations)" : "crypto.getRandomValues (CSPRNG fallback)"
+          source: isQuantum ? "Stranger Q" : "CSPRNG fallback"
         };
         break;
       }
