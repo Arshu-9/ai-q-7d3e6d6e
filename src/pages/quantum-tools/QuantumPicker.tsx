@@ -5,6 +5,7 @@ import { ArrowLeft, Shuffle, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const QuantumPicker = () => {
   const navigate = useNavigate();
@@ -12,23 +13,6 @@ const QuantumPicker = () => {
   const [items, setItems] = useState("");
   const [pickedItem, setPickedItem] = useState("");
   const [loading, setLoading] = useState(false);
-
-  const fetchQuantumBytes = async (count: number): Promise<number[]> => {
-    try {
-      const response = await fetch(
-        `https://qrng.anu.edu.au/API/jsonI.php?length=${count}&type=uint8`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        return data.data;
-      }
-      throw new Error("API failed");
-    } catch {
-      const array = new Uint8Array(count);
-      crypto.getRandomValues(array);
-      return Array.from(array);
-    }
-  };
 
   const pickRandom = async () => {
     const itemList = items.split(",").map(i => i.trim()).filter(i => i);
@@ -43,13 +27,14 @@ const QuantumPicker = () => {
     setLoading(true);
     setPickedItem("");
     try {
-      const bytes = await fetchQuantumBytes(1);
-      const index = bytes[0] % itemList.length;
-      setTimeout(() => {
-        setPickedItem(itemList[index]);
-        setLoading(false);
-      }, 500);
-    } catch {
+      const { data, error } = await supabase.functions.invoke('quantum-random/pick', {
+        body: { items: itemList, count: 1 }
+      });
+      if (error) throw error;
+      setPickedItem(data.selected[0]);
+    } catch (err) {
+      toast({ title: "Error", description: "Failed to pick random item", variant: "destructive" });
+    } finally {
       setLoading(false);
     }
   };
