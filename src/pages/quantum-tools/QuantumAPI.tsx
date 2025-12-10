@@ -72,7 +72,7 @@ const QuantumAPI = () => {
       
       if (endpoint.method === "POST") {
         response = await supabase.functions.invoke('quantum-random', {
-          body: { items: ["Option A", "Option B", "Option C", "Option D"], count: 1 },
+          body: { action: 'pick', items: ["Option A", "Option B", "Option C", "Option D"], count: 1 },
           method: 'POST',
         });
       } else {

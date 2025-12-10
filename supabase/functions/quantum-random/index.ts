@@ -43,7 +43,16 @@ serve(async (req) => {
 
   try {
     const url = new URL(req.url);
-    const action = url.pathname.split('/').filter(Boolean).pop();
+    let action = url.pathname.split('/').filter(Boolean).pop();
+    
+    // For POST requests, check body for action if path doesn't specify one
+    let bodyData: Record<string, unknown> = {};
+    if (req.method === 'POST') {
+      bodyData = await req.json().catch(() => ({}));
+      if (!action || action === 'quantum-random') {
+        action = bodyData.action as string;
+      }
+    }
 
     let result: Record<string, unknown>;
 
@@ -102,10 +111,7 @@ serve(async (req) => {
       }
       
       case 'pick': {
-        if (req.method !== 'POST') {
-          return new Response(JSON.stringify({ error: 'POST required' }), { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
-        }
-        const { items = [], count = 1 } = await req.json();
+        const { items = [], count = 1 } = bodyData as { items?: string[]; count?: number };
         if (!items.length) {
           result = { selected: [], count: 0, entropy: "none", source: "N/A" };
           break;

@@ -27,8 +27,8 @@ const QuantumPicker = () => {
     setLoading(true);
     setPickedItem("");
     try {
-      const { data, error } = await supabase.functions.invoke('quantum-random/pick', {
-        body: { items: itemList, count: 1 }
+      const { data, error } = await supabase.functions.invoke('quantum-random', {
+        body: { action: 'pick', items: itemList, count: 1 }
       });
       if (error) throw error;
       setPickedItem(data.selected[0]);
