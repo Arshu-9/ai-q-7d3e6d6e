@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Fingerprint, Copy, Check, Loader2, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { ToolTestComparison, UUID_USE_CASES } from "@/components/ToolTestComparison";
 
 const QuantumUniqueID = () => {
   const navigate = useNavigate();
@@ -48,11 +49,25 @@ const QuantumUniqueID = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  // For Test & Compare
+  const generateQRNGForTest = async (): Promise<string> => {
+    const bytes = await fetchQuantumBytes(8);
+    const hex = bytes.map(b => b.toString(16).padStart(2, "0")).join("");
+    return `${hex.slice(0,8)}-${hex.slice(8,16)}`.toUpperCase();
+  };
+
+  const generatePRNGForTest = (): string => {
+    const hex = Array.from({ length: 8 }, () => 
+      Math.floor(Math.random() * 256).toString(16).padStart(2, "0")
+    ).join("");
+    return `${hex.slice(0,8)}-${hex.slice(8,16)}`.toUpperCase();
+  };
+
   return (
-    <div className="min-h-screen relative">
+    <div className="min-h-screen relative pb-20">
       <div className="fog-overlay" />
       
-      <div className="container mx-auto px-6 py-8 relative z-10 max-w-2xl">
+      <div className="container mx-auto px-6 py-8 relative z-10 max-w-3xl">
         <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
           <Button
             type="button"
@@ -135,6 +150,16 @@ const QuantumUniqueID = () => {
             </p>
           </div>
         </motion.div>
+
+        {/* Test & Compare Section */}
+        <div className="mt-8 premium-panel p-6">
+          <ToolTestComparison
+            toolName="UUID"
+            generateQRNG={generateQRNGForTest}
+            generatePRNG={generatePRNGForTest}
+            useCases={UUID_USE_CASES}
+          />
+        </div>
       </div>
     </div>
   );
