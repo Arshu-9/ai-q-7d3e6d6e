@@ -5,6 +5,7 @@ import { ArrowLeft, Lock, Copy, Check, Loader2, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import { ToolTestComparison, PASSWORD_USE_CASES } from "@/components/ToolTestComparison";
 
 const QuantumPassword = () => {
   const navigate = useNavigate();
@@ -64,11 +65,23 @@ const QuantumPassword = () => {
 
   const strength = getStrengthInfo();
 
+  // For Test & Compare
+  const generateQRNGForTest = async (): Promise<string> => {
+    const bytes = await fetchQuantumBytes(12);
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%";
+    return bytes.map(b => chars[b % chars.length]).join("").slice(0, 12);
+  };
+
+  const generatePRNGForTest = (): string => {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%";
+    return Array.from({ length: 12 }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
+  };
+
   return (
-    <div className="min-h-screen relative">
+    <div className="min-h-screen relative pb-20">
       <div className="fog-overlay" />
       
-      <div className="container mx-auto px-6 py-8 relative z-10 max-w-2xl">
+      <div className="container mx-auto px-6 py-8 relative z-10 max-w-3xl">
         <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
           <Button
             type="button"
@@ -184,6 +197,16 @@ const QuantumPassword = () => {
             </p>
           </div>
         </motion.div>
+
+        {/* Test & Compare Section */}
+        <div className="mt-8 premium-panel p-6">
+          <ToolTestComparison
+            toolName="Password"
+            generateQRNG={generateQRNGForTest}
+            generatePRNG={generatePRNGForTest}
+            useCases={PASSWORD_USE_CASES}
+          />
+        </div>
       </div>
     </div>
   );

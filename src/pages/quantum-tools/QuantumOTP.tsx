@@ -5,6 +5,7 @@ import { ArrowLeft, KeyRound, Copy, Check, Loader2, RefreshCw } from "lucide-rea
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import { ToolTestComparison, OTP_USE_CASES } from "@/components/ToolTestComparison";
 
 const QuantumOTP = () => {
   const navigate = useNavigate();
@@ -49,11 +50,21 @@ const QuantumOTP = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  // For Test & Compare
+  const generateQRNGForTest = async (): Promise<string> => {
+    const bytes = await fetchQuantumBytes(6);
+    return bytes.map(b => b % 10).join("").slice(0, 6);
+  };
+
+  const generatePRNGForTest = (): string => {
+    return Array.from({ length: 6 }, () => Math.floor(Math.random() * 10)).join("");
+  };
+
   return (
-    <div className="min-h-screen relative">
+    <div className="min-h-screen relative pb-20">
       <div className="fog-overlay" />
       
-      <div className="container mx-auto px-6 py-8 relative z-10 max-w-2xl">
+      <div className="container mx-auto px-6 py-8 relative z-10 max-w-3xl">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -152,6 +163,16 @@ const QuantumOTP = () => {
             </p>
           </div>
         </motion.div>
+
+        {/* Test & Compare Section */}
+        <div className="mt-8 premium-panel p-6">
+          <ToolTestComparison
+            toolName="OTP"
+            generateQRNG={generateQRNGForTest}
+            generatePRNG={generatePRNGForTest}
+            useCases={OTP_USE_CASES}
+          />
+        </div>
       </div>
     </div>
   );

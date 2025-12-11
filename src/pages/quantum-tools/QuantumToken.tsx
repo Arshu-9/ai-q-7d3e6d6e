@@ -5,6 +5,7 @@ import { ArrowLeft, Ticket, Copy, Check, Loader2, RefreshCw } from "lucide-react
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import { ToolTestComparison, TOKEN_USE_CASES } from "@/components/ToolTestComparison";
 
 const QuantumToken = () => {
   const navigate = useNavigate();
@@ -50,11 +51,23 @@ const QuantumToken = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  // For Test & Compare
+  const generateQRNGForTest = async (): Promise<string> => {
+    const bytes = await fetchQuantumBytes(16);
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    return bytes.map(b => chars[b % chars.length]).join("").slice(0, 16);
+  };
+
+  const generatePRNGForTest = (): string => {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    return Array.from({ length: 16 }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
+  };
+
   return (
-    <div className="min-h-screen relative">
+    <div className="min-h-screen relative pb-20">
       <div className="fog-overlay" />
       
-      <div className="container mx-auto px-6 py-8 relative z-10 max-w-2xl">
+      <div className="container mx-auto px-6 py-8 relative z-10 max-w-3xl">
         <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
           <Button
             type="button"
@@ -150,6 +163,16 @@ const QuantumToken = () => {
             </p>
           </div>
         </motion.div>
+
+        {/* Test & Compare Section */}
+        <div className="mt-8 premium-panel p-6">
+          <ToolTestComparison
+            toolName="Token"
+            generateQRNG={generateQRNGForTest}
+            generatePRNG={generatePRNGForTest}
+            useCases={TOKEN_USE_CASES}
+          />
+        </div>
       </div>
     </div>
   );
