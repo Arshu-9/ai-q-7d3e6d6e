@@ -12,6 +12,7 @@ import { PremiumFinalKeyDisplay } from "@/components/PremiumFinalKeyDisplay";
 import { ComparisonPanel } from "@/components/ComparisonPanel";
 import { EntropyVisualization } from "@/components/EntropyVisualization";
 import { InteractiveStep } from "@/components/InteractiveStep";
+import { QRNGTestComparison } from "@/components/QRNGTestComparison";
 
 // Christmas light colors for the typing indicator effect
 const christmasColors = [
@@ -639,6 +640,16 @@ const Index = () => {
               <EntropyVisualization qrngData={qrngData} binary={binary} />
             </motion.div>
           )}
+
+          {/* QRNG Test & Comparison Lab */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="mt-16"
+          >
+            <QRNGTestComparison />
+          </motion.div>
         </div>
       </div>
       
